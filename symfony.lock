@@ -120,6 +120,9 @@
             "config/routes/liip_imagine.yaml"
         ]
     },
+    "mercuryseries/flashy-bundle": {
+        "version": "v4.0.0"
+    },
     "monolog/monolog": {
         "version": "2.3.5"
     },
