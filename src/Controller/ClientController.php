@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Client;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
+use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -85,7 +86,7 @@ class ClientController extends AbstractController
      * @return a Response Object
     */
     #[Route('/client', name: 'client_list', methods: ['GET', 'POST'])]
-    public function show(ClientRepository $rep, Request $req): Response
+    public function list(ClientRepository $rep, Request $req): Response
     {
         $clients = $rep->findAll();
 
@@ -134,5 +135,16 @@ class ClientController extends AbstractController
         }
 
         return $this->redirectToRoute('client_list');
-    }    
+    }
+    
+    #[Route('/client/list/{id}', name: 'client_product_list', methods: ['GET', 'POST'])]
+    public function show(Client $client, CommandeRepository $cmd): Response
+    {
+        $commandListByOneClient = $cmd->findBy(['clients' => $client]);
+
+        return $this->render('client/show.html.twig',[
+            'client' => $client,
+            'commands' => $commandListByOneClient
+        ]);
+    }
 }
