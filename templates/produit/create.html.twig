@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Liste des produits' %}
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" value="Ajouter">
+    {{ form_end(form) }}
+     
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+
+{% block title 'liste produits' %}
+
+{% block body %}
+
+    {% if produits|length == 0 %}
+        <h1>Il n'y a aucun commande pour le moment.</h1>  
+    {% else %}
+        <table>
+            <thead>
+                <td>NUMPRO</td>
+                <td>Designation</td>
+                <td>Prix Unitaire</td>
+                <td>Stock</td>
+                <td>Options</td>
+            </thead>
+
+            {% for produit in produits %}
+            <tr>
+                <td>{{ produit.numPro }}</td>
+                <td>{{ produit.design }}</td>
+                <td>{{ produit.pu }}</td>
+                <td>{{ produit.stock }}</td>
+                <td>
+                    <button>
+                        <a href="{{ path('product_edit', {id:produit.numPro}) }}">edit</a>
+                    </button>
+                    <button>
+                        <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
+                        document.getElementById('js-produit-delete-form_{{ produit.numPro }}').submit();">Delete</a>
+                    </button>
+                </td>
+            </tr>
+
+            <form id='js-produit-delete-form_{{ produit.numPro }}' action="{{ path('produit_delete', { id:produit.numPro }) }}" method="post" style="display: none;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token('produit_deletion_'~produit.numPro) }}">
+                <input type="hidden" name="_method" value="DELETE">
+            </form>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
