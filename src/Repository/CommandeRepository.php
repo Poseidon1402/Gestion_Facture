@@ -45,22 +45,22 @@ class CommandeRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Commande[] Returns an array of Commande objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+    * @return Commande[] Returns an array of Commande objects
+    */
+    
+    public function findAllCommandBetweenTwoDates($value1, $value2)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('c.date_commande>=:val1 AND c.date_commande<=:val2')
+            ->setParameter('val1', $value1)
+            ->setParameter('val2', $value2)
             ->orderBy('c.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Commande

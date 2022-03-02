@@ -8,6 +8,7 @@ use App\Repository\ClientRepository;
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -137,14 +138,40 @@ class ClientController extends AbstractController
         return $this->redirectToRoute('client_list');
     }
     
-    #[Route('/client/list/{id}', name: 'client_product_list', methods: ['GET', 'POST'])]
-    public function show(Client $client, CommandeRepository $cmd): Response
+    #[Route('/client/{id}', name: 'client_product_list', methods: ['GET', 'POST'])]
+    public function show(Client $client, CommandeRepository $rep, Request $req): Response
     {
-        $commandListByOneClient = $cmd->findBy(['clients' => $client]);
+        $commandListPerClient = $rep->findBy(['clients' => $client]);
+
+        $form = $this->createFormBuilder()
+            ->add('beginningDate', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false
+            ])
+            ->add('lastDate', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false
+            ])
+            ->getForm()
+        ;
+        
+        $form->handleRequest($req);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $commands = $rep->findAllCommandBetweenTwoDates($form->getData()['beginningDate'], $form->getData()['lastDate']);
+
+            if($form->getData()['beginningDate'] !== null && $form->getData()['lastDate'])
+                return $this->render('client/show.html.twig',[
+                    'client' => $client,
+                    'form' => $form->createView(),
+                    'commands' => $commands
+                ]);    
+        }
 
         return $this->render('client/show.html.twig',[
             'client' => $client,
-            'commands' => $commandListByOneClient
+            'form' => $form->createView(),
+            'commands' => $commandListPerClient
         ]);
     }
 }

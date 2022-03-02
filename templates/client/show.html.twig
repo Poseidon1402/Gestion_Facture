@@ -3,6 +3,11 @@
 {% block title client.nom~' profil' %}
 
 {% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" value="Rechercher">
+    {{ form_end(form) }}
     <p>><img src="{{ (client.imageName? vich_uploader_asset(client) : 'Avatar/jeune-homme-avatar-personnage-photo-de-profil-tc667n.jpg')
     |imagine_filter('squared_thumbnail_small') }}" /></p>
     <h1>{{ client.nom }}</h1>
