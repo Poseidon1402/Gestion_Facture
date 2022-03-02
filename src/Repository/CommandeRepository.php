@@ -62,6 +62,22 @@ class CommandeRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+    * @return Commande[] Returns an array of Commande objects
+    */
+    
+    public function findAllTurnOversPerClient($value1)
+    {
+        return $this->createQueryBuilder('c')
+            ->select("clients, SUM(produits.pu) as turnOver")
+            ->andWhere('YEAR(date_commande) = :val')
+            ->setParameter('val1', $value1)
+            ->groupBy('c.clients')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /*
     public function findOneBySomeField($value): ?Commande
     {

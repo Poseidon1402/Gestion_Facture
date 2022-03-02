@@ -138,7 +138,7 @@ class ClientController extends AbstractController
         return $this->redirectToRoute('client_list');
     }
     
-    #[Route('/client/{id}', name: 'client_product_list', methods: ['GET', 'POST'])]
+    #[Route('/client/productList/{id}', name: 'client_product_list', methods: ['GET', 'POST'])]
     public function show(Client $client, CommandeRepository $rep, Request $req): Response
     {
         $commandListPerClient = $rep->findBy(['clients' => $client]);
@@ -157,21 +157,42 @@ class ClientController extends AbstractController
         
         $form->handleRequest($req);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid() && 
+        $form->getData()['beginningDate'] !== null && $form->getData()['lastDate'] !== null){
             $commands = $rep->findAllCommandBetweenTwoDates($form->getData()['beginningDate'], $form->getData()['lastDate']);
-
-            if($form->getData()['beginningDate'] !== null && $form->getData()['lastDate'])
-                return $this->render('client/show.html.twig',[
-                    'client' => $client,
-                    'form' => $form->createView(),
-                    'commands' => $commands
-                ]);    
+            return $this->render('client/show.html.twig',[
+                'client' => $client,
+                'form' => $form->createView(),
+                'commands' => $commands
+            ]);    
         }
 
         return $this->render('client/show.html.twig',[
             'client' => $client,
             'form' => $form->createView(),
             'commands' => $commandListPerClient
+        ]);
+    }
+
+    #[Route(path: '/client/turnover', name: 'clients_turnover', methods: ['GET', 'POST'])]
+    public function turnOver(CommandeRepository $rep, Request $req): Response
+    {
+        $form = $this->createFormBuilder()
+            ->add('year', TextType::class, [
+                'required' => false
+            ])
+            ->getForm()
+        ;
+        dd($rep->findAllTurnOversPerClient('2021'));
+
+        $form->handleRequest($req);
+
+        if($form->isSubmitted() && $form->isValid() && $form->getData()['year'] !== null)
+            $commands = $rep->findAllTurnOversPerClient($form->getData()['year']);
+
+        return $this->render('client/turnOver.html.twig', [
+            'commands' => $commands,
+            'form' => $form->createView()
         ]);
     }
 }
