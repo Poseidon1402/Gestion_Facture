@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Commande;
+use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -66,16 +67,17 @@ class CommandeRepository extends ServiceEntityRepository
     * @return Commande[] Returns an array of Commande objects
     */
     
-    public function findAllTurnOversPerClient($value1)
+    public function findAllTurnOversPerClient($value1='2022')
     {
-        return $this->createQueryBuilder('c')
-            ->select("clients, SUM(produits.pu) as turnOver")
-            ->andWhere('YEAR(date_commande) = :val')
-            ->setParameter('val1', $value1)
-            ->groupBy('c.clients')
-            ->getQuery()
-            ->getResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT cli, SUM(p.pu) FROM App\Entity\Commande c, App\Entity\Produit p, App\Entity\Client cli 
+            WHERE c.clients=cli AND c.produits=p AND YEAR(c.date_commande)=:val GROUP BY cli.nom ORDER BY cli.numcli"
+        )->setParameter('val', $value1)->getResult();
+
+
+        return $query;
     }
 
     /*

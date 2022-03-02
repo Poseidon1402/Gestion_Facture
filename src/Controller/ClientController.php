@@ -183,15 +183,15 @@ class ClientController extends AbstractController
             ])
             ->getForm()
         ;
-        dd($rep->findAllTurnOversPerClient('2021'));
+        $clients = $rep->findAllTurnOversPerClient();
 
         $form->handleRequest($req);
 
         if($form->isSubmitted() && $form->isValid() && $form->getData()['year'] !== null)
-            $commands = $rep->findAllTurnOversPerClient($form->getData()['year']);
+            $clients = $rep->findAllTurnOversPerClient($form->getData()['year']);
 
         return $this->render('client/turnOver.html.twig', [
-            'commands' => $commands,
+            'clients' => $clients,
             'form' => $form->createView()
         ]);
     }
