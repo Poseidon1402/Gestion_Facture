@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title 'Facture' %}
+
+{% block body %}
+    <p>{{ facture.id }}</p>
+    <p>{{ facture.dateFacture|date('d/m/Y') }}</p>
+
+    <table>
+        <thead>
+            <td>DESIGNATION</td>
+            <td>PU</td>
+            <td>QUANTITE</td>
+            <td>MONTANT</td>
+        </thead>
+        
+        {% for command in commands %}
+            <tr>
+                <td>{{ command.produits.design }}</td>
+                <td>{{ command.produits.pu }}</td>
+                <td>{{ command.qte }}</td>
+                <td>{{ command.produits.pu*command.qte }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2"></td>
+            <td>TOTAL</td>
+            <td>2500</td>
+        </tr>
+    </table>
+{% endblock %}
