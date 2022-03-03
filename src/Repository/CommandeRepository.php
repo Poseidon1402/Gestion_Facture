@@ -80,6 +80,21 @@ class CommandeRepository extends ServiceEntityRepository
         return $query;
     }
 
+    /**
+    * @return Commande Returns a Commande objects
+    */
+    
+    public function findAllCommandMadeByAClientOnASpecificDate($value1, $value2)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT c FROM App\Entity\Commande c WHERE c.clients = :value1 AND c.date_commande=:value2"
+        )->setParameter('value1', $value1)->setParameter('value2', $value2);
+
+        return $query->getResult();
+    }
+
     /*
     public function findOneBySomeField($value): ?Commande
     {
