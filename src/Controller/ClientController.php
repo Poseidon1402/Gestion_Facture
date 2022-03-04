@@ -231,18 +231,18 @@ class ClientController extends AbstractController
             $html = $this->renderView('facture/facture.html.twig', [
                 'facture' => $facture,
                 'commands' => $commandes,
-                'client' => $form->getData()->getClient(),
                 'total' => $total
             ]);
 
+            $em->persist($facture);
+            $em->flush();
+            
+            #render the bill
             $knpSnappyPdf->setOption("enable-local-file-access",true);
             return new PdfResponse(
                 $knpSnappyPdf->getOutputFromHtml($html),
                 'bill.pdf'
             );
-
-            $em->persist($facture);
-            $em->flush();
         }
 
         return $this->render('facture/FactureGenerate.html.twig',[
