@@ -203,7 +203,7 @@ class ClientController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/facture/generate', name: 'generate_facture', methods: ['GET', 'POST'])]
+    #[Route(path: '/bill/generate', name: 'generate_facture', methods: ['GET', 'POST'])]
     public function factureGenerate(Request $req, EntityManagerInterface $em,FactureRepository $factRep, 
         CommandeRepository $rep,Pdf $knpSnappyPdf): Response
     {
@@ -236,8 +236,8 @@ class ClientController extends AbstractController
                 'totalToString' => (new NumberToStr())->intToStr($total)
             ]);
 
-            //$em->persist($facture);
-            //$em->flush();
+            $em->persist($facture);
+            $em->flush();
 
             #render the bill
             $knpSnappyPdf->setOption("enable-local-file-access",true);

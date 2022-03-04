@@ -6,13 +6,13 @@ use App\Entity\Commande;
 use App\Entity\Produit;
 use App\Form\CommandType;
 use App\Repository\CommandeRepository;
+use App\Repository\ProduitRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +26,7 @@ class CommandeController extends AbstractController
      * 
      * @return a Response object
     */
-    #[Route('/commande/add', name: 'commande_create', methods: ['GET', 'POST'])]
+    #[Route('/command/add', name: 'commande_create', methods: ['GET', 'POST'])]
     public function create(Request $req, EntityManagerInterface $em, FlashyNotifier $flashy): Response
     {
         $commande = new Commande;
@@ -58,17 +58,18 @@ class CommandeController extends AbstractController
      * 
      * @return a Response object
     */
-    #[Route('/commande/modify/{id}', name: 'commande_edit', methods: ['GET', 'PATCH'])]
-    public function modify(Commande $commande, Request $req, EntityManagerInterface $em): Response
+    #[Route('/command/modify/{id}', name: 'commande_edit', methods: ['GET', 'PATCH'])]
+    public function modify(Commande $commande, ProduitRepository $rep, Request $req, EntityManagerInterface $em): Response
     {
         $qte = $commande->getQte();
         $stock = $commande->getProduits()->getStock();
 
-        $prod = $commande->getProduits();
+        #get the product which is linked with the command
+        $prod = $rep->find($commande->getProduits()->getNumPro());
 
-        $commande->getProduits()->setStock($commande->getProduits()->getStock()+$qte);
-        $prod = $commande->getProduits();
-
+        #re-add the stock
+        $commande->getProduits()->setStock($stock+$qte);
+        
         $form = $this->createForm(CommandType::class, $commande, [
             'method' => 'PATCH'
         ]);
@@ -103,7 +104,7 @@ class CommandeController extends AbstractController
      * 
      * @return a Response Object
     */
-    #[Route('/commande', name: 'commande_list', methods: ['GET', 'POST'])]
+    #[Route('/command', name: 'commande_list', methods: ['GET', 'POST'])]
     public function show(CommandeRepository $rep): Response
     {
         $commandes = $rep->findAll();
@@ -118,7 +119,7 @@ class CommandeController extends AbstractController
      * 
      * @return a Response object
     */
-    #[Route('/commande/delete/{id}', name: 'commande_delete', methods: ['DELETE'])]
+    #[Route('/command/delete/{id}', name: 'commande_delete', methods: ['DELETE'])]
     public function delete(Commande $commande, Request $req, EntityManagerInterface $em): Response
     {
         //csrf protection
@@ -169,7 +170,7 @@ class CommandeController extends AbstractController
                 $histories = $rep->findPurchaseHistoryPerProductByYear($form->getData()['year']);
             }
 
-            if($form->getData()['beginningDate'] !== null && $form->getData()['lastDate'] !== null){
+            if($form->getData()['beginningDate'] !== null){
                 $histories = $rep->findPurchaseHistoryPerProductBetweenToDate(
                     $form->getData()['beginningDate'], $form->getData()['lastDate']??new DateTimeImmutable);
             }
