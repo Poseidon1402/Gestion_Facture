@@ -1,10 +1,11 @@
 {% extends "base.html.twig" %}
 
-{% block title 'list client' %}
+{% block title 'liste des clients' %}
 
 {% block body %}
 
-    {{ form_start(form) }}
+    <div class="container">
+        {{ form_start(form) }}
         {{ form_widget(form) }}
 
         <input type="submit" value="Rechercher">
@@ -13,12 +14,14 @@
     {% if clients|length == 0 %}
         <p>Il n'y aucune correspondance à votre spécification.</p>
     {% else %}
-        <table>
+    <table class="table table-striped">
         <thead>
-            <td>Numero Client</td>
-            <td>Nom</td>
-            <td>Photo</td>
-            <td>Options</td>
+            <tr>
+                <th>Numero Client</th>
+                <th>Nom</th>
+                <th>Photo</th>
+                <th>Options</th>
+            </tr>
         </thead>
         {% for client in clients %}
             <tr>
@@ -45,5 +48,8 @@
         {% endfor %}
     </table>    
     {% endif %}
+    
+    </div>
+
     
 {% endblock %}
