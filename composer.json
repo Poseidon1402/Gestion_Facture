@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
+        "knplabs/knp-paginator-bundle": "^5.8",
         "knplabs/knp-snappy-bundle": "^1.9",
         "liip/imagine-bundle": "^2.7",
         "mercuryseries/flashy-bundle": "^4.0",
