@@ -1,20 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ facture.dateFacture|date('dmY') }}/{{ facture.client.numcli }}/{{ facture.id }}</title>
+    </head>
+
 {% block body %}
     <div>
-        <p >FACTURE N°{{ facture.id }}</p>
-        <p>DATE <span style="text-decoration: underline;">{{ facture.dateFacture|date('d/m/Y') }}</span></p>
+        <p>FACTURE N°<b>{{ facture.dateFacture|date('dmY') }}/{{ facture.client.numcli }}/{{ facture.id }}</b></p>
+        <p class="right">DATE <span style="text-decoration: underline;"><i>{{ facture.dateFacture|date('d/m/Y') }}</i></span></p>
     </div>
 
     <div>
-        <p>N°CLIENT: {{ facture.client.numcli }}</p>
-        <p>NOM: {{ facture.client.nom }}</p>
+        <p>N°CLIENT: <b>{{ facture.client.numcli }}</b></p>
+        <p class="right" style="margin-left: 505px;">NOM: <b>{{ facture.client.nom }}</b></p>
     </div>
 
-    <table>
+    <table id="products">
         <thead>
-            <td>DESIGNATION</td>
-            <td>PU</td>
-            <td>QUANTITE</td>
-            <td>MONTANT</td>
+            <tr>
+                <th>DESIGNATION</th>
+                <th>PU</th>
+                <th>QUANTITE</th>
+                <th>MONTANT</th>
+            </tr>
         </thead>
         
         {% for command in commands %}
@@ -26,9 +35,52 @@
             </tr>
         {% endfor %}
         <tr>
-            <td colspan="2"></td>
+            <td colspan="2" style="border: none;"></td>
             <td>TOTAL</td>
             <td>{{ total }}</td>
         </tr>
     </table>
+
+    <p><b style="text-transform:uppercase;" class="somme">ARRETEE LA PRESENTE FACTURE A LA SOMME DE {{ totalToString }} FMG.</b></p>
+
+    <style>
+        #products {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 75%;
+            margin: auto;
+            padding: 10px;
+        }
+
+        #products td, #products th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #products tr:nth-child(even){background-color: #f2f2f2;}
+
+        #products th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #10b377;
+            color: white;
+        }
+
+        p {
+            display: inline-block;
+        }
+
+        div {
+            margin-left: 75px;
+        }
+
+        .right {
+            margin-left: 400px;
+        }
+        
+        p .somme {
+            margin-left: 125px;
+        }
+    </style>
 {% endblock %}

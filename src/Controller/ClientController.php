@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Class\NumberToStr;
 use App\Entity\Client;
 use App\Entity\Facture;
 use App\Form\BillType;
@@ -231,12 +232,13 @@ class ClientController extends AbstractController
             $html = $this->renderView('facture/facture.html.twig', [
                 'facture' => $facture,
                 'commands' => $commandes,
-                'total' => $total
+                'total' => $total,
+                'totalToString' => (new NumberToStr())->intToStr($total)
             ]);
 
-            $em->persist($facture);
-            $em->flush();
-            
+            //$em->persist($facture);
+            //$em->flush();
+
             #render the bill
             $knpSnappyPdf->setOption("enable-local-file-access",true);
             return new PdfResponse(
