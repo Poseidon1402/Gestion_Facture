@@ -6,9 +6,13 @@ use App\Entity\Commande;
 use App\Entity\Produit;
 use App\Form\CommandType;
 use App\Repository\CommandeRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -127,5 +131,54 @@ class CommandeController extends AbstractController
         }
 
         return $this->redirectToRoute('commande_list');
-    }    
+    }
+    
+    #[Route(path:'/purchase/history', name: 'purchase_history', methods: ['GET', 'POST'])]
+    public function history(CommandeRepository $rep, Request $req): Response
+    {
+        $histories = $rep->findPurchaseHistoryPerProductByYear();
+
+        $form = $this->createFormBuilder()
+            ->add('year', SearchType::class, [
+                'required' => false,
+                'attr' => [
+                    'id' => 'year'
+                ]
+            ])
+            ->add('beginningDate', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+                'attr' => [
+                    'id' => 'date'
+                ]
+            ])
+            ->add('lastDate', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+                'attr' => [
+                    'id' => 'date'
+                ]
+            ])
+            ->getForm()
+        ;
+
+        $form->handleRequest($req);
+
+        if($form->isSubmitted() && $form->isValid()){
+            if($form->getData()['year'] !== null){
+                $histories = $rep->findPurchaseHistoryPerProductByYear($form->getData()['year']);
+            }
+
+            if($form->getData()['beginningDate'] !== null && $form->getData()['lastDate'] !== null){
+                $histories = $rep->findPurchaseHistoryPerProductBetweenToDate(
+                    $form->getData()['beginningDate'], $form->getData()['lastDate']??new DateTimeImmutable);
+            }
+        
+        }
+
+        return $this->render('produit/history.html.twig', [
+            'histories' => $histories,
+            'form' => $form->createView()
+        ]);
+    }
 }

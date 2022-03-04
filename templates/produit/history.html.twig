@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title 'Produits sortants' %}
+
+{% block body %}
+    <select name="searchType" id="searchType">
+        <option value="Année">Année</option>
+        <option value="Date">Date</option>
+    </select>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" value="Rechercher">
+    {{ form_end(form) }}
+
+    <table>
+        <thead>
+            <td>DESIGNATION</td>
+            <td>PU</td>
+            <td>Quantité</td>
+            <td>Date</td>
+        </thead>
+    {% for history in histories %}
+        <tr>
+            <td>{{ history[0].design }}</td>
+            <td>{{ history[0].pu }}</td>
+            <td>{{ history[1] }}</td>
+            <td>{{ history[2] }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
