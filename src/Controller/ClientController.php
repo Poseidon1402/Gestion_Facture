@@ -3,10 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Client;
+use App\Entity\Facture;
+use App\Form\BillType;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\FactureRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -157,13 +163,13 @@ class ClientController extends AbstractController
         $form->handleRequest($req);
 
         if($form->isSubmitted() && $form->isValid() && 
-        $form->getData()['beginningDate'] !== null && $form->getData()['lastDate'] !== null){
-            $commands = $rep->findAllCommandBetweenTwoDates($form->getData()['beginningDate'], $form->getData()['lastDate']);
-            return $this->render('client/show.html.twig',[
-                'client' => $client,
-                'form' => $form->createView(),
-                'commands' => $commands
-            ]);    
+            $form->getData()['beginningDate'] !== null && $form->getData()['lastDate'] !== null){
+                $commands = $rep->findAllCommandBetweenTwoDates($form->getData()['beginningDate'], $form->getData()['lastDate']);
+                return $this->render('client/show.html.twig',[
+                    'client' => $client,
+                    'form' => $form->createView(),
+                    'commands' => $commands
+                ]);    
         }
 
         return $this->render('client/show.html.twig',[
@@ -176,6 +182,7 @@ class ClientController extends AbstractController
     #[Route(path: '/client/turnover', name: 'clients_turnover', methods: ['GET', 'POST'])]
     public function turnOver(CommandeRepository $rep, Request $req): Response
     {
+        #create form to filter data
         $form = $this->createFormBuilder()
             ->add('year', TextType::class, [
                 'required' => false
@@ -193,5 +200,54 @@ class ClientController extends AbstractController
             'clients' => $clients,
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route(path: '/facture/generate', name: 'generate_facture', methods: ['GET', 'POST'])]
+    public function factureGenerate(Request $req, EntityManagerInterface $em,FactureRepository $factRep, 
+        CommandeRepository $rep,Pdf $knpSnappyPdf): Response
+    {
+        $facture = new Facture;
+        $facture->setDateFacture(new DateTimeImmutable);
+
+        $form = $this->createForm(BillType::class, $facture);
+        $form->handleRequest($req);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $facture->setId(count($factRep->findAll())+1);
+
+            #get commands made by a client in one purchase
+            $commandes = $rep->findBy([
+                'clients' => $form->getData()->getClient(),
+                'date_commande' => $form->getData()->getDateFacture()
+            ]);
+            
+            #compute the total costs
+            $total = 0;
+            foreach($commandes as $commande){
+                $total += $commande->getProduits()->getPu()*$commande->getQte();
+            }
+
+            #store the bill view into a variable
+            $html = $this->renderView('facture/facture.html.twig', [
+                'facture' => $facture,
+                'commands' => $commandes,
+                'client' => $form->getData()->getClient(),
+                'total' => $total
+            ]);
+
+            $knpSnappyPdf->setOption("enable-local-file-access",true);
+            return new PdfResponse(
+                $knpSnappyPdf->getOutputFromHtml($html),
+                'bill.pdf'
+            );
+
+            $em->persist($facture);
+            $em->flush();
+        }
+
+        return $this->render('facture/FactureGenerate.html.twig',[
+            'form' => $form->createView()
+        ]);
+
     }
 }

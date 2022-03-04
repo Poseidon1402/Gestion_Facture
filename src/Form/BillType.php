@@ -17,10 +17,7 @@ class BillType extends AbstractType
     {
         $builder
             ->add('dateFacture', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => [
-                    'readOnly' => true
-                ]
+                'widget' => 'single_text'
             ])
             ->add('client', EntityType::class, [
                 'class' => Client::class,

@@ -26,6 +26,13 @@ class Facture
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getDateFacture(): ?\DateTimeInterface
     {
         return $this->dateFacture;

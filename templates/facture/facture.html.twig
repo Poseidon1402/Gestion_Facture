@@ -1,10 +1,13 @@
-{% extends "base.html.twig" %}
-
-{% block title 'Facture' %}
-
 {% block body %}
-    <p>{{ facture.id }}</p>
-    <p>{{ facture.dateFacture|date('d/m/Y') }}</p>
+    <div>
+        <p >FACTURE N°{{ facture.id }}</p>
+        <p>DATE <span style="text-decoration: underline;">{{ facture.dateFacture|date('d/m/Y') }}</span></p>
+    </div>
+
+    <div>
+        <p>N°CLIENT: {{ client.numcli }}</p>
+        <p>NOM: {{ client.nom }}</p>
+    </div>
 
     <table>
         <thead>
@@ -25,7 +28,7 @@
         <tr>
             <td colspan="2"></td>
             <td>TOTAL</td>
-            <td>2500</td>
+            <td>{{ total }}</td>
         </tr>
     </table>
 {% endblock %}

@@ -117,11 +117,10 @@ class CommandeController extends AbstractController
     #[Route('/commande/delete/{id}', name: 'commande_delete', methods: ['DELETE'])]
     public function delete(Commande $commande, Request $req, EntityManagerInterface $em): Response
     {
-        $prod = $commande->getProduits();
-        $prod->setStock($commande->getQte()+$prod->getStock());
-
         //csrf protection
         if($this->isCsrfTokenValid('command_deletion_'.$commande->getId(), $req->request->get('csrf_token'))){
+            $prod = $commande->getProduits();
+            $prod->setStock($commande->getQte()+$prod->getStock());
             $em->remove($commande);
             $em->persist($prod);
             $em->flush();
