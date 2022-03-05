@@ -16,7 +16,6 @@ use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,6 +55,8 @@ class ClientController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em->persist($client);
             $em->flush();
+            
+            $this->addFlash('success', 'Client ajouté avec succès!');
 
             return $this->redirectToRoute('client_list');
         }
@@ -80,6 +81,8 @@ class ClientController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $em->flush();
+
+            $this->addFlash('success', 'Client '.$client->getNumcli().' modifié avec succès');
 
             return $this->redirectToRoute('client_list');
         }
@@ -152,6 +155,8 @@ class ClientController extends AbstractController
         //csrf protection
         if($this->isCsrfTokenValid('client_deletion_'.$client->getNumcli(), $req->request->get('csrf_token'))){
             $em->remove($client);
+
+            $this->addFlash('success', 'Client '.$client->getNumcli().' supprimé avec succès');
             $em->flush();
         }
 

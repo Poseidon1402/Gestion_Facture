@@ -46,7 +46,8 @@
                                 </a>
                             </button>
                             <button class="btn btn-primary m-1">
-                                <a href="#" class="text-decoration-none">
+                                <a href="#" class="text-decoration-none" onclick="event.preventDefault();confirm('are you sure?') && 
+                                document.getElementById('js-client-delete-form_{{ client.numcli }}').submit();">
                                     <img src="/icon/delete.png" alt="delete-icon">
                                 </a>
                             </button>
