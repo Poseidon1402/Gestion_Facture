@@ -24,7 +24,7 @@
         {% if pagination|length == 0 %}
             <p class="h1 text-center bold mt-3">Oops! Aucun client trouvé.</p>
         {% else %}
-            <table class="table table-hover table-secondary table-bordered caption-top mx-auto mt-3">
+            <table class="table table-hover table-secondary table-bordered caption-top mx-auto mt-1">
                 <tr class="table-dark row">
                     <th class="text-center col-3">N°CLIENT</th>
                     <th class="text-center col-5">NOM</th>
@@ -40,19 +40,19 @@
                         <td class="text-center col-1"><img src="{{ (client.imageName? vich_uploader_asset(client) : 'Avatar/jeune-homme-avatar-personnage-photo-de-profil-tc667n.jpg')
                     | imagine_filter('squared_thumbnail_small') }}" class="img-thumbnail rounded mx-auto" /></td>
                         <td class="text-center col-3">
-                            <button class="btn btn-dark" title="modifier {{ client.numcli }}">
+                            <button class="btn btn-dark" title="modifier {{ client.nom }}">
                                 <a href="{{ path('client_edit', {id:client.numcli}) }}" class="text-decoration-none">
                                     <img src="/icon/edit.png" alt="edit-icon">
                                 </a>
                             </button>
-                            <button class="btn btn-primary m-1">
+                            <button class="btn btn-primary m-1" title="Supprimer {{ client.nom }}">
                                 <a href="#" class="text-decoration-none" onclick="event.preventDefault();confirm('are you sure?') && 
                                 document.getElementById('js-client-delete-form_{{ client.numcli }}').submit();">
                                     <img src="/icon/delete.png" alt="delete-icon">
                                 </a>
                             </button>
 
-                            <button class="btn btn-success">
+                            <button class="btn btn-success" title="Voir liste des produits achetés">
                                 <a href="{{ path('client_product_list', {id: client.numcli}) }}">
                                     <img src="/icon/product.png" alt="listProduct-icon">
                                 </a>

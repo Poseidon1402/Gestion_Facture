@@ -88,7 +88,8 @@ class ClientController extends AbstractController
         }
 
         return $this->render('client/modify.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'client' => $client
         ]);
     }
 

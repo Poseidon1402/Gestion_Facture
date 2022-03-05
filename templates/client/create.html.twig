@@ -11,7 +11,9 @@
 
             <div class="row">
                 <button type="submit" class="btn btn-lg btn-secondary text-dark col m-1">AJOUTER</button>
-                <button type="reset" onclick="e.preventDefault()" class="btn btn-lg btn-dark col m-1">Effacer le formulaire</button>
+                <button class="btn btn-lg btn-dark col m-1">
+                    <a href="{{ path('client_list') }}" class="text-decoration-none">Retour</a>
+                </button>
             </div>
         {{ form_end(form) }}
     </div>

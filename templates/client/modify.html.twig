@@ -1,11 +1,20 @@
 {% extends "base.html.twig" %}
 
-{% block title 'modify client' %}
+{% block title client.nom %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    <h1 class="text-center h1 bold mt-3 text-secondary">Modification du client {{ client.nom }}</h1>
 
-        <input type="submit" value="Modifier">
-    {{ form_end(form) }}
+    <div class="container mt-3 w-50">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <div class="row">
+                <button type="submit" class="btn btn-lg btn-secondary text-dark col m-1">AJOUTER</button>
+                <button class="btn btn-lg btn-dark col m-1">
+                    <a href="{{ path('client_list') }}" class="text-decoration-none">Retour</a>
+                </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
