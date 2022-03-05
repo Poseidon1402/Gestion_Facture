@@ -3,9 +3,16 @@
 {% block title 'Add Client' %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    <h1 class="text-center bold mt-3 text-secondary">Nouveau client</h1>
 
-        <input type="submit" value="Ajouter">
-    {{ form_end(form) }}
+    <div class="container mt-3 w-50">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <div class="row">
+                <button type="submit" class="btn btn-lg btn-secondary text-dark col m-1">AJOUTER</button>
+                <button type="reset" onclick="e.preventDefault()" class="btn btn-lg btn-dark col m-1">Effacer le formulaire</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
