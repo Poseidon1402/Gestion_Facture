@@ -16,6 +16,7 @@ use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,8 +107,9 @@ class ClientController extends AbstractController
 
         $form = $this->createFormBuilder()
             ->add('search', TextType::class, [
+                'label' => ' ',
                 'attr' => [
-                    'placeholder' => "Tapez le nom ou l'identifiant du client"
+                    'placeholder' => "Tapez le nom ou l'identifiant du client",
                 ],
                 'required' => false
             ])

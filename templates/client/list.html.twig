@@ -5,14 +5,24 @@
 {% block body %}
 
     <div class="container">
-        {{ form_start(form) }}
-            {{ form_widget(form) }}
+        <div>
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-5 mt-1">
+                        {{ form_widget(form) }}
+                    </div>
 
-            <input type="submit" value="Rechercher">
-        {{ form_end(form) }}
+                    <div class="col-2 mt-3">
+                        <button type="submit" class="btn btn-secondary">
+                            <img src="/icon/search.png" alt="search-icon">
+                        </button>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
 
         {% if pagination|length == 0 %}
-            <p>Il n'y aucune correspondance à votre spécification.</p>
+            <p class="h1 text-center bold mt-3">Oops! Aucun client trouvé.</p>
         {% else %}
             <table class="table table-hover table-secondary table-bordered caption-top mx-auto mt-3">
                 <tr class="table-dark row">
@@ -36,16 +46,14 @@
                                 </a>
                             </button>
                             <button class="btn btn-primary m-1">
-                                <a href="#" class="text-decoration-none" onclick="event.preventDefault();confirm('are you sure?') && 
-                                document.getElementById('js-client-delete-form_{{ client.numcli }}').submit();">
+                                <a href="#" class="text-decoration-none">
                                     <img src="/icon/delete.png" alt="delete-icon">
                                 </a>
                             </button>
 
                             <button class="btn btn-success">
-                                <a href="#" class="text-decoration-none" onclick="event.preventDefault();confirm('are you sure?') && 
-                                document.getElementById('js-client-delete-form_{{ client.numcli }}').submit();">
-                                    <img src="/icon/product.png" alt="delete-icon">
+                                <a href="{{ path('client_product_list', {id: client.numcli}) }}">
+                                    <img src="/icon/product.png" alt="listProduct-icon">
                                 </a>
                             </button>
                         </td>
