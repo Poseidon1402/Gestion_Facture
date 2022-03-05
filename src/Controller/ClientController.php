@@ -10,6 +10,7 @@ use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\FactureRepository;
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
@@ -172,14 +173,23 @@ class ClientController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('beginningDate', DateType::class, [
                 'widget' => 'single_text',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'title' => 'Début'
+                ]
             ])
             ->add('lastDate', DateType::class, [
                 'widget' => 'single_text',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'title' => 'Fin'
+                ]
             ])
             ->getForm()
         ;
+
+        # set the current time as the default value of the lastDate field
+        $form->get('lastDate')->setData(new DateTime);
         
         $form->handleRequest($req);
 

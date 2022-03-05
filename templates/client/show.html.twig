@@ -3,34 +3,56 @@
 {% block title client.nom~' profil' %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    <div class="container mt-2">
+        <div class="text-center">
+            <p><img src="{{ (client.imageName? vich_uploader_asset(client) : 'Avatar/jeune-homme-avatar-personnage-photo-de-profil-tc667n.jpg')
+                |imagine_filter('squared_thumbnail_small') }}" class="rounded-circle" /></p>
+            <h1>{{ client.nom }}</h1>
+        </div>
 
-        <input type="submit" value="Rechercher">
-    {{ form_end(form) }}
+
+        <div class="mt-3">
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-5">
+                        {{ form_widget(form.beginningDate) }}
+                    </div>
+
+                    <div class="col-5">
+                        {{ form_widget(form.lastDate) }}
+                    </div>
+                        
+                    <div class="col-2">
+                        <input type="submit" class="btn btn-secondary shadow" value="Rechercher">
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+
+        {% if commands|length == 0 %}
+            <p class="h1 bold text-center mt-3">Ce client n'a rien commandé pour l'instant.</p>
+        {% else %}
+
+            <div class="mt-3">
+                <table class="table table-hover table-striped caption-top">
+                    <thead>
+                        <tr class="row">
+                            <th class="col-5 text-center">Designation</th>
+                            <th class="col-2 text-center">Prix Unitaire</th>
+                            <th class="col-5 text-center">Date de la commande</th>
+                        </tr>
+                    </thead>
+            
+                    {% for command in commands %}
+                        <tr class="row">
+                            <td class="col-5 text-center">{{ command.produits.design }}</td>
+                            <td class="col-2 text-center">{{ command.produits.pu }}</td>
+                            <td class="col-5 text-center">{{ command.dateCommande|date('d/m/Y') }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+            </div>    
+    </div>
     
-    <p>><img src="{{ (client.imageName? vich_uploader_asset(client) : 'Avatar/jeune-homme-avatar-personnage-photo-de-profil-tc667n.jpg')
-    |imagine_filter('squared_thumbnail_small') }}" /></p>
-    <h1>{{ client.nom }}</h1>
-    {% if commands|length == 0 %}
-        <p>Ce client n'a rien commandé pour l'instant.</p>
-    {% else %}
-        <table>
-            <thead>
-                <td>NumPro</td>
-                <td>Designation</td>
-                <td>Prix Unitaire</td>
-                <td>Date de la commande</td>
-            </thead>
-
-            {% for command in commands %}
-                <tr>
-                    <td>{{ command.produits.numPro }}</td>
-                    <td>{{ command.produits.design }}</td>
-                    <td>{{ command.produits.pu }}</td>
-                    <td>{{ command.dateCommande|date('d/m/Y') }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
 {% endblock %}
