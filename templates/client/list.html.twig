@@ -14,22 +14,22 @@
         {% if pagination|length == 0 %}
             <p>Il n'y aucune correspondance à votre spécification.</p>
         {% else %}
-            <table class="table table-hover table-success table-striped table-bordered caption-top mx-auto mt-5">
+            <table class="table table-hover table-secondary table-bordered caption-top mx-auto mt-3">
                 <tr class="table-dark row">
                     <th class="text-center col-3">N°CLIENT</th>
-                    <th class="text-center col-6">NOM</th>
+                    <th class="text-center col-5">NOM</th>
                     <th class="text-center col-1">PHOTO</th>
-                    <th class="text-center col-2">ACTIONS</th>
+                    <th class="text-center col-3">ACTIONS</th>
                 </tr>
 
                 {# table body #}
                 {% for client in pagination %}
-                    <tr class="row">
-                        <td class="text-center col-3">{{ client.numcli }}</td>
-                        <td class="text-center col-6">{{ client.nom }}</td>
+                    <tr class="row px-auto align-middle">
+                        <td class="text-center col-3"><span class="align-middle">{{ client.numcli }}</span></td>
+                        <td class="text-center col-5"><span class="align-middle">{{ client.nom }}</span></td>
                         <td class="text-center col-1"><img src="{{ (client.imageName? vich_uploader_asset(client) : 'Avatar/jeune-homme-avatar-personnage-photo-de-profil-tc667n.jpg')
                     | imagine_filter('squared_thumbnail_small') }}" class="img-thumbnail rounded mx-auto" /></td>
-                        <td class="text-center col-2">
+                        <td class="text-center col-3">
                             <button class="btn btn-dark" title="modifier {{ client.numcli }}">
                                 <a href="{{ path('client_edit', {id:client.numcli}) }}" class="text-decoration-none">
                                     <img src="/icon/edit.png" alt="edit-icon">
@@ -39,6 +39,13 @@
                                 <a href="#" class="text-decoration-none" onclick="event.preventDefault();confirm('are you sure?') && 
                                 document.getElementById('js-client-delete-form_{{ client.numcli }}').submit();">
                                     <img src="/icon/delete.png" alt="delete-icon">
+                                </a>
+                            </button>
+
+                            <button class="btn btn-success">
+                                <a href="#" class="text-decoration-none" onclick="event.preventDefault();confirm('are you sure?') && 
+                                document.getElementById('js-client-delete-form_{{ client.numcli }}').submit();">
+                                    <img src="/icon/product.png" alt="delete-icon">
                                 </a>
                             </button>
                         </td>
