@@ -6,50 +6,57 @@
 
     <div class="container">
         {{ form_start(form) }}
-        {{ form_widget(form) }}
+            {{ form_widget(form) }}
 
-        <input type="submit" value="Rechercher">
-    {{ form_end(form) }}
+            <input type="submit" value="Rechercher">
+        {{ form_end(form) }}
 
-    {% if clients|length == 0 %}
-        <p>Il n'y aucune correspondance à votre spécification.</p>
-    {% else %}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Numero Client</th>
-                <th>Nom</th>
-                <th>Photo</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        {% for client in clients %}
-            <tr>
-                <td>{{ client.numcli }}</td>
-                <td>{{ client.nom }}</td>
-                <td><img src="{{ (client.imageName? vich_uploader_asset(client) : 'Avatar/jeune-homme-avatar-personnage-photo-de-profil-tc667n.jpg')
-                 | imagine_filter('squared_thumbnail_small') }}" /></td>
-            
-                <td>
-                    <button>
-                        <a href="{{ path('client_edit', {id:client.numcli}) }}">edit</a>
-                    </button>
-                    <button>
-                        <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
-                        document.getElementById('js-client-delete-form_{{ client.numcli }}').submit();">Delete</a>
-                    </button>
-                </td>
-            </tr>
+        {% if pagination|length == 0 %}
+            <p>Il n'y aucune correspondance à votre spécification.</p>
+        {% else %}
+            <table class="table table-hover table-success table-striped table-bordered caption-top mx-auto mt-5">
+                <tr class="table-dark row">
+                    <th class="text-center col-3">N°CLIENT</th>
+                    <th class="text-center col-6">NOM</th>
+                    <th class="text-center col-1">PHOTO</th>
+                    <th class="text-center col-2">ACTIONS</th>
+                </tr>
 
-            <form id='js-client-delete-form_{{ client.numcli }}' action="{{ path('client_delete', { id:client.numcli }) }}" method="post" style="display: none;">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token('client_deletion_'~client.numcli) }}">
-                <input type="hidden" name="_method" value="DELETE">
-            </form>
-        {% endfor %}
-    </table>    
-    {% endif %}
-    
+                {# table body #}
+                {% for client in pagination %}
+                    <tr class="row">
+                        <td class="text-center col-3">{{ client.numcli }}</td>
+                        <td class="text-center col-6">{{ client.nom }}</td>
+                        <td class="text-center col-1"><img src="{{ (client.imageName? vich_uploader_asset(client) : 'Avatar/jeune-homme-avatar-personnage-photo-de-profil-tc667n.jpg')
+                    | imagine_filter('squared_thumbnail_small') }}" class="img-thumbnail rounded mx-auto" /></td>
+                        <td class="text-center col-2">
+                            <button class="btn btn-dark" title="modifier {{ client.numcli }}">
+                                <a href="{{ path('client_edit', {id:client.numcli}) }}" class="text-decoration-none">
+                                    <img src="/icon/edit.png" alt="edit-icon">
+                                </a>
+                            </button>
+                            <button class="btn btn-primary m-1">
+                                <a href="#" class="text-decoration-none" onclick="event.preventDefault();confirm('are you sure?') && 
+                                document.getElementById('js-client-delete-form_{{ client.numcli }}').submit();">
+                                    <img src="/icon/delete.png" alt="delete-icon">
+                                </a>
+                            </button>
+                        </td>
+                    </tr>
+
+                    <form id='js-client-delete-form_{{ client.numcli }}' action="{{ path('client_delete', { id:client.numcli }) }}" method="post" style="display: none;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token('client_deletion_'~client.numcli) }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                    </form>
+                {% endfor %}
+            </table>
+
+            {# display navigation #}
+            <div class="d-flex justify-content-center">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+
     </div>
-
-    
+        
 {% endblock %}
