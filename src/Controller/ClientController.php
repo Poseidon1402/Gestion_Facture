@@ -13,6 +13,7 @@ use App\Repository\FactureRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Component\Pager\PaginatorInterface;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -93,9 +94,15 @@ class ClientController extends AbstractController
      * @return a Response Object
     */
     #[Route('/client', name: 'client_list', methods: ['GET', 'POST'])]
-    public function list(ClientRepository $rep, Request $req): Response
+    public function list(ClientRepository $rep, PaginatorInterface $paginator, Request $req): Response
     {
         $clients = $rep->findAll();
+
+        $pagination = $paginator->paginate(
+            $clients,
+            $req->query->getInt('page', 1),
+            10
+        );
 
         $form = $this->createFormBuilder()
             ->add('search', TextType::class, [
@@ -110,17 +117,22 @@ class ClientController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $specificClients = $rep->search($form->getData()['search']);
+            $pagination = $paginator->paginate(
+                $specificClients,
+                $req->query->getInt('page', 1),
+                10
+            );
 
             if($form->getData()['search'] !== null)
                 return $this->render('client/list.html.twig', [
-                    'clients' => $specificClients,
+                    'pagination' => $pagination,
                     'form' => $form->createView()
                 ]); 
         }
         
 
         return $this->render('client/list.html.twig', [
-            'clients' => $clients,
+            'pagination' => $pagination,
             'form' => $form->createView()
         ]);
     }
