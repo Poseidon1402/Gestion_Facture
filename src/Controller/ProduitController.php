@@ -58,7 +58,7 @@ class ProduitController extends AbstractController
     public function modify( Produit $produit, Request $req, EntityManagerInterface $emi):Response
     {   
         
-        $form = $this->createForm(ProduitType::class, $produit);
+        $form = $this->createForm(ProduitType::class, $produit,['method' => 'PATCH']);
 
         $form->handleRequest($req);
 

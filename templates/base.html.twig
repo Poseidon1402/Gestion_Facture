@@ -7,14 +7,16 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            
+            
         {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
-    </head>
-    <body>
-        {% for label, messages in app.flashes %}
+    </head>   
+<body>
+      {% for label, messages in app.flashes %}
             <div class="container mt-2">
                 {% for message in messages %}
                     <div class="alert alert-dismissible alert-{{ label }}">
@@ -25,6 +27,58 @@
             </div>
         {% endfor %}
 
+
+     <nav class=" navbar navbar-expand d-flex flex-column align-item-start "id="sidebar">
+        <a href="" class="navbar-brand text-light mt-5">
+           <div class="display-5 font-weight-bold">Menu</div>
+        </a>
+        
+        <ul class="navbar-nav d-flex flex-column mt-5 w-100"id="navbarColor01">
+        <hr>
+            <li class="nav-item w-100">
+                <a href="#cli"class=" nav-link text-light pl-4 "  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="cli">Client</a>
+                  <div id="cli" class="collapse " >
+                    <a href="/client/add"class=" nav-link text-light pl-4 col" >Ajout</a>
+                    <a href="/client"class="nav-link text-light pl-4 col" >Liste</a>
+                  </div>
+            </li>
+            <li class="nav-item w-100">
+                <a href="#pro"class="nav-link text-light pl-4 "  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="pro">Produit</a>
+                  <div id="pro" class="collapse " >
+                    <a href="/produit/add"class="nav-link text-light pl-4 col" >Ajout</a>
+                    <a href="/produit"class="nav-link text-light pl-4 col" >Liste</a>
+                  </div>
+            </li>
+           <li class="nav-item w-100">
+                <a href="#com"class="nav-link text-light pl-4 "  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="com">Commande</a>
+                  <div id="com" class="collapse " >
+                    <a href="/commande/add"class="nav-link text-light pl-4 col" >Ajout</a>
+                    <a href="/commande"class="nav-link text-light pl-4 col" >Liste</a>
+                  </div>
+            </li>
+           <hr>  
+        </ul>
+          
+      </nav> 
+     
+      <div class="p-4 my-container">
+        <button class="navbar-toggler" id="menu-btn">
+         Menu
+        </button>
         {% block body %}{% endblock %}
-    </body>
+
+      </div>
+      <script>
+          var menu_btn = document.querySelector("#menu-btn")
+          var slidebar = document.querySelector("#sidebar")
+          var container = document.querySelector(".my-container")
+          menu_btn.addEventListener("click",()=>{
+          sidebar.classList.toggle("active-nav")
+          container.classList.toggle("active-cont")})
+      </script>
+    
+             
+
+
+ </body>
 </html>
