@@ -4,25 +4,18 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-2">
-            <button class="btn">
-                <a href="{{ path('client_list') }}" class="text-decoration-none h5 text-dark">
-                    <img src="/icon/back.png" alt="back" srcset="">retour
-                </a>
-            </button>
-        </div>
-
-        <div class="col-10">
-            <h1 class="h1 mb-3 mt-3 bolder text-center text-primary">
+        <div class="col-11">
+            <h1 class="h2 mb-4 mt-1 bolder text-center text-primary">
                 Les Chiffres d'affaires des clients durant l'année {{ year }} 
             </h1>
+            
             {{ form_start(form) }}
-                <div class="row mt-2 w-50">
-                    <div class="col">
+                <div class="row mt-2 mb-3 w-50">
+                    <div class="col-6">
                         {{ form_widget(form.year) }}
                     </div>
     
-                    <div class="col">
+                    <div class="col-2">
                         <button type="submit" class="btn btn-secondary">
                             <img src="/icon/search.png" alt="search-icon">
                         </button>
@@ -33,22 +26,22 @@
             {% if pagination|length == 0 %}
                 <p class="h1 mt-3 text-center text-secondary">Aucun résultat trouvé !</p>
             {% else %}
-                <table class="table table-hover table-borderless caption-top table-striped mt-3">
+                <table class="table table-hover table-striped table-borderless mt-3 ">
                     <thead class="text-center text-dark">
                         <tr class="row">
-                            <th class="col">N°CLIENT</th>
-                            <th class="col">NOM</th>
-                            <th class="col">CHIFFRE D’AFFAIRES(FMG)</th>
-                            <th class="col">ANNEE</th>
+                            <th class="col-2">N°CLIENT</th>
+                            <th class="col-3">NOM</th>
+                            <th class="col-5">CHIFFRES D'AFFAIRES(FMG)</th>
+                            <th class="col-2">ANNEE</th>
                         </tr>
                     </thead>
     
                     {% for client in pagination %}
                         <tr class="text-center row">
-                            <td class="col">{{ client[0].numcli }}</td>
-                            <td class="col">{{ client[0].nom }}</td>
-                            <td class="col">{{ client[1] }}</td>
-                            <td class="col">{{ year }}</td>
+                            <td class="col-2">{{ client[0].numcli }}</td>
+                            <td class="col-3">{{ client[0].nom }}</td>
+                            <td class="col-5">{{ client[1] }}</td>
+                            <td class="col-2">{{ year }}</td>
                         </tr>
                     {% endfor %}
                 </table>

@@ -248,9 +248,15 @@ class ClientController extends AbstractController
         if($form->isSubmitted() && $form->isValid() && $form->getData()['year'] !== null){
             $clients = $rep->findAllTurnOversPerClient($form->getData()['year']);
 
+            $pagination = $paginator->paginate(
+                $clients,
+                $req->query->getInt('page', 1),
+                10
+            );
+
             if($clients)
                 return $this->render('client/turnOver.html.twig', [
-                    'clients' => $clients,
+                    'pagination' => $pagination,
                     'form' => $form->createView(),
                     'year' => $form->get('year')->getData() 
                 ]);

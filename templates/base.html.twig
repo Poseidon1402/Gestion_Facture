@@ -16,18 +16,6 @@
         {% endblock %}
     </head>   
 <body>
-      {% for label, messages in app.flashes %}
-            <div class="container mt-2">
-                {% for message in messages %}
-                    <div class="alert alert-dismissible alert-{{ label }}">
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        <h4 class="text-center">{{ message }}</h4>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
-
-
      <nav class=" navbar navbar-expand d-flex flex-column align-item-start "id="sidebar">
         <a href="" class="navbar-brand text-light mt-5">
            <div class="display-5 font-weight-bold">Menu</div>
@@ -65,9 +53,19 @@
         <button class="navbar-toggler" id="menu-btn">
          Menu
         </button>
+        {% for label, messages in app.flashes %}
+            <div class="container mt-2">
+                {% for message in messages %}
+                    <div class="alert alert-dismissible alert-{{ label }}">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <h4 class="text-center">{{ message }}</h4>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
         {% block body %}{% endblock %}
-
       </div>
+
       <script>
           var menu_btn = document.querySelector("#menu-btn")
           var slidebar = document.querySelector("#sidebar")

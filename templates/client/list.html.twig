@@ -6,24 +6,6 @@
 
     <div class="container">
         <div class="row">
-            <div class="col">
-                <div class="row">
-                    <div class="col-2">
-                        <button class="btn p-0 mt-3" title="Ajouter un nouveau client">
-                            <a href="{{ path('client_create') }}" class="text-decoration-none">
-                                <img src="icon/add.png" alt="add icon">
-                            </a>
-                        </button>
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-secondary shadow mt-3" title="Chiffres d'affaires des clients">
-                            <a href="{{ path('clients_turnover') }}" class="text-decoration-none">
-                                <img src="icon/turnOver.png" alt="turnover icon">
-                            </a>
-                        </button>
-                    </div>
-                </div>
-            </div>
             <div class="d-flex justify-content-end col">
                 {{ form_start(form) }}
                     <div class="row">
@@ -46,20 +28,20 @@
         {% else %}
             <table class="table table-hover table-secondary caption-top mx-auto">
                 <tr class="table-dark row">
-                    <th class="text-center col-3">N°CLIENT</th>
-                    <th class="text-center col-5">NOM</th>
+                    <th class="text-center col-2">N°CLIENT</th>
+                    <th class="text-center col-3">NOM</th>
                     <th class="text-center col-1">PHOTO</th>
-                    <th class="text-center col-3">ACTIONS</th>
+                    <th class="text-center col-6">ACTIONS</th>
                 </tr>
 
                 {# table body #}
                 {% for client in pagination %}
                     <tr class="row px-auto align-middle">
-                        <td class="text-center col-3"><span class="align-middle">{{ client.numcli }}</span></td>
-                        <td class="text-center col-5"><span class="align-middle">{{ client.nom }}</span></td>
+                        <td class="text-center col-2"><span class="align-middle">{{ client.numcli }}</span></td>
+                        <td class="text-center col-3"><span class="align-middle">{{ client.nom }}</span></td>
                         <td class="text-center col-1"><img src="{{ (client.imageName? vich_uploader_asset(client) : 'Avatar/jeune-homme-avatar-personnage-photo-de-profil-tc667n.jpg')
                     | imagine_filter('squared_thumbnail_small') }}" class="img-thumbnail rounded mx-auto" /></td>
-                        <td class="text-center col-3">
+                        <td class="text-center col-6">
                             <button class="btn btn-dark" title="modifier {{ client.nom }}">
                                 <a href="{{ path('client_edit', {id:client.numcli}) }}" class="text-decoration-none">
                                     <img src="/icon/edit.png" alt="edit-icon">
