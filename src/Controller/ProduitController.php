@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,11 +78,17 @@ class ProduitController extends AbstractController
      * @return a Response Object
     */
     #[Route('/produit', name: 'product_list', methods: ['GET'])]
-    public function list(ProduitRepository $rep): Response
+    public function list(ProduitRepository $rep, PaginatorInterface $paginator, Request $req): Response
     {
         $produits = $rep->findAll();
 
-        return $this->render('produit/list.html.twig', compact('produits'));
+        $pagination = $paginator->paginate(
+            $produits,
+            $req->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('produit/list.html.twig', compact('pagination'));
     }
 
     /**

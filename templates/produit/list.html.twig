@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    {% if produits|length == 0 %}
+    {% if pagination|length == 0 %}
         <h1>Il n'y a aucun commande pour le moment.</h1>  
     {% else %}
         <table>
@@ -16,7 +16,7 @@
                 <td>Options</td>
             </thead>
 
-            {% for produit in produits %}
+            {% for produit in pagination %}
             <tr>
                 <td>{{ produit.numPro }}</td>
                 <td>{{ produit.design }}</td>
