@@ -7,7 +7,7 @@
     {% if commandes|length == 0 %}
         <h1>Il n'y a aucun commande pour le moment.</h1>  
     {% else %}
-        <table>
+        <table class="table table-hover">
             <thead>
                 <td>Numéro</td>
                 <td>Clients</td>
@@ -18,19 +18,20 @@
             </thead>
 
             {% for commande in commandes %}
-            <tr>
+            <tr class="table-secondary">
+            
                 <td>{{ commande.id }}</td>
                 <td>{{ commande.clients.nom }}</td>
                 <td>{{ commande.qte }}</td>
                 <td>{{ commande.produits.design }}</td>
                 <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
                 <td>
-                    <button>
-                        <a href="{{ path('commande_edit', {id:commande.id}) }}">edit</a>
+                    <button class="btn btn-success btn-sm">
+                        <a href="{{ path('commande_edit', {id:commande.id}) }}" style="text-decoration:none">Modifier</a>
                     </button>
-                    <button>
+                    <button class="btn btn-danger btn-sm">
                         <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
-                        document.getElementById('js-client-delete-form_{{ commande.id }}').submit();">Delete</a>
+                        document.getElementById('js-client-delete-form_{{ commande.id }}').submit();" style="text-decoration:none">Supprimer</a>
                     </button>
                 </td>
             </tr>
