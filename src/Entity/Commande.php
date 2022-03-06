@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
@@ -26,6 +27,11 @@ class Commande
 
     #[ORM\Column(type: 'date')]
     private $date_commande;
+
+    public function __construct()
+    {
+        $this->date_commande = new DateTimeImmutable;
+    }
 
     public function getId(): ?int
     {
