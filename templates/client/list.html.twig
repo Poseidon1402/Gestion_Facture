@@ -5,15 +5,15 @@
 {% block body %}
 
     <div class="container">
-        <div>
+        <div class="d-flex justify-content-end">
             {{ form_start(form) }}
                 <div class="row">
-                    <div class="col-5 mt-1">
+                    <div class="col-5 w-75 mt-1">
                         {{ form_widget(form) }}
                     </div>
 
                     <div class="col-2 mt-3">
-                        <button type="submit" class="btn btn-secondary">
+                        <button type="submit" class="btn btn-secondary shadow">
                             <img src="/icon/search.png" alt="search-icon">
                         </button>
                     </div>
@@ -24,7 +24,7 @@
         {% if pagination|length == 0 %}
             <p class="h1 text-center bold mt-3">Oops! Aucun client trouvé.</p>
         {% else %}
-            <table class="table table-hover table-secondary table-bordered caption-top mx-auto mt-1">
+            <table class="table table-hover table-secondary caption-top mx-auto mt-1">
                 <tr class="table-dark row">
                     <th class="text-center col-3">N°CLIENT</th>
                     <th class="text-center col-5">NOM</th>

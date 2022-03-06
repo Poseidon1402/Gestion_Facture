@@ -19,3 +19,7 @@ yarn-error.log
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+
+###customization###
+public/images/
+### end customization ###

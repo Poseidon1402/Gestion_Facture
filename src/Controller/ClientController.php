@@ -99,7 +99,7 @@ class ClientController extends AbstractController
      * 
      * @return a Response Object
     */
-    #[Route('/client', name: 'client_list', methods: ['GET', 'POST'])]
+    #[Route('/client', name: 'client_list', methods: ['GET'])]
     public function list(ClientRepository $rep, PaginatorInterface $paginator, Request $req): Response
     {
         $clients = $rep->findAll();
@@ -110,7 +110,9 @@ class ClientController extends AbstractController
             10
         );
 
-        $form = $this->createFormBuilder()
+        # use GET method
+        # disable csrf protection
+        $form = $this->createFormBuilder(null, ['method' => 'GET', 'csrf_protection' => false])
             ->add('search', TextType::class, [
                 'label' => ' ',
                 'attr' => [
@@ -165,12 +167,14 @@ class ClientController extends AbstractController
         return $this->redirectToRoute('client_list');
     }
     
-    #[Route('/client/productList/{id}', name: 'client_product_list', methods: ['GET', 'POST'])]
+    #[Route('/client/productList/{id}', name: 'client_product_list', methods: ['GET'])]
     public function show(Client $client, CommandeRepository $rep, Request $req): Response
     {
         $commandListPerClient = $rep->findBy(['clients' => $client]);
 
-        $form = $this->createFormBuilder()
+        # use GET method
+        # disable csrf protection
+        $form = $this->createFormBuilder(null, ['method' => 'GET', 'csrf_protection' => false])
             ->add('beginningDate', DateType::class, [
                 'widget' => 'single_text',
                 'required' => false,
@@ -210,11 +214,11 @@ class ClientController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/client/turnover', name: 'clients_turnover', methods: ['GET', 'POST'])]
+    #[Route(path: '/client/turnover', name: 'clients_turnover', methods: ['GET'])]
     public function turnOver(CommandeRepository $rep, Request $req): Response
     {
         #create form to filter data
-        $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder(null, ['method' => 'GET', 'csrf_protection' => false])
             ->add('year', TextType::class, [
                 'required' => false
             ])
