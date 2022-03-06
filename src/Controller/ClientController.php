@@ -18,10 +18,12 @@ use Knp\Component\Pager\PaginatorInterface;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Length;
 
 class ClientController extends AbstractController
 {
@@ -215,25 +217,55 @@ class ClientController extends AbstractController
     }
 
     #[Route(path: '/client/turnover', name: 'clients_turnover', methods: ['GET'])]
-    public function turnOver(CommandeRepository $rep, Request $req): Response
+    public function turnOver(CommandeRepository $rep, Request $req, PaginatorInterface $paginator): Response
     {
         #create form to filter data
         $form = $this->createFormBuilder(null, ['method' => 'GET', 'csrf_protection' => false])
-            ->add('year', TextType::class, [
-                'required' => false
+            ->add('year', NumberType::class, [
+                'required' => false,
+                'attr' => [
+                    'placeholder' => "Tapez une année",
+                    'min' => 1,
+                    'max' => date('Y')
+                ],
+                'constraints' => [
+                    new Length([
+                        'min' => 1,
+                        'minMessage' => 'Le champ devra contenir au moins {{ min }} caractère',
+                        'max' => 4,
+                        'maxMessage' => 'Le champ devra contenir au plus {{ max }} caractère'
+                    ]),
+                ]
             ])
             ->getForm()
         ;
         $clients = $rep->findAllTurnOversPerClient();
-
+        
+        #set the current year as default value
+        $form->get('year')->setData(date('Y'));
         $form->handleRequest($req);
 
-        if($form->isSubmitted() && $form->isValid() && $form->getData()['year'] !== null)
+        if($form->isSubmitted() && $form->isValid() && $form->getData()['year'] !== null){
             $clients = $rep->findAllTurnOversPerClient($form->getData()['year']);
 
+            if($clients)
+                return $this->render('client/turnOver.html.twig', [
+                    'clients' => $clients,
+                    'form' => $form->createView(),
+                    'year' => $form->get('year')->getData() 
+                ]);
+        }
+
+        $pagination = $paginator->paginate(
+            $clients,
+            $req->query->getInt('page', 1),
+            10
+        );
+        
         return $this->render('client/turnOver.html.twig', [
-            'clients' => $clients,
-            'form' => $form->createView()
+            'pagination' => $pagination,
+            'form' => $form->createView(),
+            'year' => date('Y') 
         ]);
     }
 
