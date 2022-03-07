@@ -5,7 +5,7 @@
 {% block body %}
 
     {% if pagination|length == 0 %}
-        <h1>Il n'y a aucun commande pour le moment.</h1>  
+        <h1>Aucun produit trouvé.</h1>  
     {% else %}
         <table>
             <thead>
@@ -28,13 +28,13 @@
                     </button>
                     <button>
                         <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
-                        document.getElementById('js-produit-delete-form_{{ produit.numPro }}').submit();">Delete</a>
+                        document.getElementById('js-product-delete-form_{{ produit.numPro }}').submit();">Delete</a>
                     </button>
                 </td>
             </tr>
 
-            <form id='js-produit-delete-form_{{ produit.numPro }}' action="{{ path('produit_delete', { id:produit.numPro }) }}" method="post" style="display: none;">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token('produit_deletion_'~produit.numPro) }}">
+            <form id='js-product-delete-form_{{ produit.numPro }}' action="{{ path('product_delete', { id:produit.numPro }) }}" method="post" style="display: none;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token('product_deletion_'~produit.numPro) }}">
                 <input type="hidden" name="_method" value="DELETE">
             </form>
             {% endfor %}

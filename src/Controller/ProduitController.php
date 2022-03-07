@@ -100,7 +100,7 @@ class ProduitController extends AbstractController
      * 
      * @return a Response object
     */
-    #[Route('/product/delete/{id}', name: 'produit_delete', methods: ['DELETE'])]
+    #[Route('/product/delete/{id}', name: 'product_delete', methods: ['DELETE'])]
     public function delete(Produit $produit, Request $req, EntityManagerInterface $em): Response
     {
         //csrf protection
@@ -109,6 +109,6 @@ class ProduitController extends AbstractController
             $em->flush();
         }
 
-        return $this->redirectToRoute('produit_list');
+        return $this->redirectToRoute('product_list');
     }    
 }
