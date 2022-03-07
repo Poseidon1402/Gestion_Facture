@@ -36,6 +36,8 @@ class CommandeController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             if($commande->getProduits()->getStock() < $form->getData()->getQte()){
+                $this->addFlash('danger', 'Stock insuffisant !');
+
                 return $this->redirectToRoute('command_create');
             }
 
@@ -44,6 +46,8 @@ class CommandeController extends AbstractController
             
             $em->persist($commande);
             $em->flush();
+
+            $this->addFlash('success', 'La commande du client '.$commande->getClients()->getNom().' a été ajouté !' );
 
             return $this->redirectToRoute('command_list');
         }
@@ -83,11 +87,16 @@ class CommandeController extends AbstractController
 
                 $em->flush();
 
+                $this->addFlash('danger', "la commande du client ".$commande->getClients()->getNom()." 
+                ne pourrait pas être modifié dûe à l'insuffisance du stock !");
+
                 return $this->redirectToRoute('command_edit', ['id' => $commande->getId()]);
             }
             $commande->getProduits()->setStock($commande->getProduits()->getStock() - $form->getData()->getQte());
 
             $em->flush();
+
+            $this->addFlash('success', 'la commande de '.$commande->getClients()->getNom().' a été modifié avec succès !');
 
             return $this->redirectToRoute('command_list');
         }
@@ -128,6 +137,8 @@ class CommandeController extends AbstractController
             $em->remove($commande);
             $em->persist($prod);
             $em->flush();
+
+            $this->addFlash('success', 'La commande a été supprimée avec succès !');
         }
 
         return $this->redirectToRoute('command_list');

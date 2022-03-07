@@ -43,6 +43,8 @@ class ProduitController extends AbstractController
             $em->persist($produit);
             $em->flush();
 
+            $this->addFlash('success', 'Le produit a été ajouté avec succès !');
+
             return $this->redirectToRoute('product_list');
         }
          
@@ -66,6 +68,8 @@ class ProduitController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $em->flush();
+
+            $this->addFlash('success', 'Le produit a été modifié avec succès !');
 
             return $this->redirectToRoute('product_list');
         }
@@ -107,6 +111,8 @@ class ProduitController extends AbstractController
         if($this->isCsrfTokenValid('product_deletion_'.$produit->getNumPro(), $req->request->get('csrf_token'))){
             $em->remove($produit);
             $em->flush();
+
+            $this->addFlash('success', 'Le produit a été supprimé avec succès !');
         }
 
         return $this->redirectToRoute('product_list');
