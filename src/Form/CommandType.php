@@ -69,7 +69,7 @@ class CommandType extends AbstractType
                     ]),
                     new Range([
                         'min' => 'now - 1 day',
-                        'minMessage' => 'La date {{ value }} est une date dans le passé.'
+                        'minMessage' => 'La date {{ value }} est une déjà passé.'
                     ])
                 ]
             ])
