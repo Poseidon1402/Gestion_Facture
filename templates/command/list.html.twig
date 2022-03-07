@@ -5,7 +5,7 @@
 {% block body %}
 
     {% if commandes|length == 0 %}
-        <h1>Il n'y a aucun commande pour le moment.</h1>  
+        <h1 class="text-center mt-2">Il n'y a aucun commande pour le moment.</h1>  
     {% else %}
         <table class="table table-hover">
             <thead>
@@ -18,28 +18,28 @@
             </thead>
 
             {% for commande in commandes %}
-            <tr class="table-secondary">
-            
-                <td>{{ commande.id }}</td>
-                <td>{{ commande.clients.nom }}</td>
-                <td>{{ commande.qte }}</td>
-                <td>{{ commande.produits.design }}</td>
-                <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
-                <td>
-                    <button class="btn btn-success btn-sm">
-                        <a href="{{ path('commande_edit', {id:commande.id}) }}" style="text-decoration:none">Modifier</a>
-                    </button>
-                    <button class="btn btn-danger btn-sm">
-                        <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
-                        document.getElementById('js-client-delete-form_{{ commande.id }}').submit();" style="text-decoration:none">Supprimer</a>
-                    </button>
-                </td>
-            </tr>
+                <tr class="table-secondary">
+                
+                    <td>{{ commande.id }}</td>
+                    <td>{{ commande.clients.nom }}</td>
+                    <td>{{ commande.qte }}</td>
+                    <td>{{ commande.produits.design }}</td>
+                    <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm">
+                            <a href="{{ path('command_edit', {id:commande.id}) }}" style="text-decoration:none">Modifier</a>
+                        </button>
+                        <button class="btn btn-danger btn-sm">
+                            <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
+                            document.getElementById('js-command-delete-form_{{ commande.id }}').submit();" style="text-decoration:none">Supprimer</a>
+                        </button>
+                    </td>
+                </tr>
 
-            <form id='js-client-delete-form_{{ commande.id }}' action="{{ path('commande_delete', { id:commande.id }) }}" method="post" style="display: none;">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token('command_deletion_'~commande.id) }}">
-                <input type="hidden" name="_method" value="DELETE">
-            </form>
+                <form id='js-command-delete-form_{{ commande.id }}' action="{{ path('command_delete', { id:commande.id }) }}" method="post" style="display: none;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token('command_deletion_'~commande.id) }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                </form>
             {% endfor %}
         </table>
     {% endif %}

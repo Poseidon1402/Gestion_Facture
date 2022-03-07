@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
-use App\Entity\Produit;
 use App\Form\CommandType;
 use App\Repository\CommandeRepository;
 use App\Repository\ProduitRepository;
@@ -26,7 +25,7 @@ class CommandeController extends AbstractController
      * 
      * @return a Response object
     */
-    #[Route('/command/add', name: 'commande_create', methods: ['GET', 'POST'])]
+    #[Route('/command/add', name: 'command_create', methods: ['GET', 'POST'])]
     public function create(Request $req, EntityManagerInterface $em, FlashyNotifier $flashy): Response
     {
         $commande = new Commande;
@@ -37,7 +36,7 @@ class CommandeController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             if($commande->getProduits()->getStock() < $form->getData()->getQte()){
-                return $this->redirectToRoute('commande_create');
+                return $this->redirectToRoute('command_create');
             }
 
             $commande->getProduits()->setStock($commande->getProduits()->getStock()-
@@ -46,7 +45,7 @@ class CommandeController extends AbstractController
             $em->persist($commande);
             $em->flush();
 
-            return $this->redirectToRoute('commande_list');
+            return $this->redirectToRoute('command_list');
         }
         return $this->render('command/create.html.twig', [
             'form' => $form->createView()
@@ -58,7 +57,7 @@ class CommandeController extends AbstractController
      * 
      * @return a Response object
     */
-    #[Route('/command/modify/{id}', name: 'commande_edit', methods: ['GET', 'PATCH'])]
+    #[Route('/command/modify/{id}', name: 'command_edit', methods: ['GET', 'PATCH'])]
     public function modify(Commande $commande, ProduitRepository $rep, Request $req, EntityManagerInterface $em): Response
     {
         $qte = $commande->getQte();
@@ -84,13 +83,13 @@ class CommandeController extends AbstractController
 
                 $em->flush();
 
-                return $this->redirectToRoute('commande_edit', ['id' => $commande->getId()]);
+                return $this->redirectToRoute('command_edit', ['id' => $commande->getId()]);
             }
             $commande->getProduits()->setStock($commande->getProduits()->getStock() - $form->getData()->getQte());
 
             $em->flush();
 
-            return $this->redirectToRoute('commande_list');
+            return $this->redirectToRoute('command_list');
         }
 
         return $this->render('command/modify.html.twig', [
@@ -104,7 +103,7 @@ class CommandeController extends AbstractController
      * 
      * @return a Response Object
     */
-    #[Route('/command', name: 'commande_list', methods: ['GET', 'POST'])]
+    #[Route('/command', name: 'command_list', methods: ['GET', 'POST'])]
     public function show(CommandeRepository $rep): Response
     {
         $commandes = $rep->findAll();
@@ -119,7 +118,7 @@ class CommandeController extends AbstractController
      * 
      * @return a Response object
     */
-    #[Route('/command/delete/{id}', name: 'commande_delete', methods: ['DELETE'])]
+    #[Route('/command/delete/{id}', name: 'command_delete', methods: ['DELETE'])]
     public function delete(Commande $commande, Request $req, EntityManagerInterface $em): Response
     {
         //csrf protection
@@ -131,7 +130,7 @@ class CommandeController extends AbstractController
             $em->flush();
         }
 
-        return $this->redirectToRoute('commande_list');
+        return $this->redirectToRoute('command_list');
     }
     
     #[Route(path:'/purchase/history', name: 'purchase_history', methods: ['GET', 'POST'])]

@@ -26,22 +26,22 @@
             <li class="nav-item w-100">
                 <a href="#cli"class=" nav-link text-light pl-4 "  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="cli">Client</a>
                   <div id="cli" class="collapse " >
-                    <a href="/client/add"class=" nav-link text-light pl-4 col" >Ajout</a>
-                    <a href="/client"class="nav-link text-light pl-4 col" >Liste</a>
+                    <a href="{{ path('client_create') }}"class=" nav-link text-light pl-4 col" >Ajout</a>
+                    <a href="{{ path('client_list') }}"class="nav-link text-light pl-4 col" >Liste</a>
                   </div>
             </li>
             <li class="nav-item w-100">
                 <a href="#pro"class="nav-link text-light pl-4 "  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="pro">Produit</a>
                   <div id="pro" class="collapse " >
-                    <a href="/produit/add"class="nav-link text-light pl-4 col" >Ajout</a>
-                    <a href="/produit"class="nav-link text-light pl-4 col" >Liste</a>
+                    <a href="{{ path('product_create') }}"class="nav-link text-light pl-4 col" >Ajout</a>
+                    <a href="{{ path('product_list') }}"class="nav-link text-light pl-4 col" >Liste</a>
                   </div>
             </li>
            <li class="nav-item w-100">
                 <a href="#com"class="nav-link text-light pl-4 "  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="com">Commande</a>
                   <div id="com" class="collapse " >
-                    <a href="/commande/add"class="nav-link text-light pl-4 col" >Ajout</a>
-                    <a href="/commande"class="nav-link text-light pl-4 col" >Liste</a>
+                    <a href="{{ path('command_create') }}"class="nav-link text-light pl-4 col" >Ajout</a>
+                    <a href="{{ path('command_list') }}"class="nav-link text-light pl-4 col" >Liste</a>
                   </div>
             </li>
            <hr>  
