@@ -88,7 +88,7 @@ class CommandeController extends AbstractController
                 $em->flush();
 
                 $this->addFlash('danger', "la commande du client ".$commande->getClients()->getNom()." 
-                ne pourrait pas être modifié dûe à l'insuffisance du stock !");
+                ne pourrait pas être modifiée dûe à l'insuffisance du stock !");
 
                 return $this->redirectToRoute('command_edit', ['id' => $commande->getId()]);
             }
@@ -96,7 +96,7 @@ class CommandeController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'la commande de '.$commande->getClients()->getNom().' a été modifié avec succès !');
+            $this->addFlash('success', 'la commande de '.$commande->getClients()->getNom().' a été modifiée avec succès !');
 
             return $this->redirectToRoute('command_list');
         }

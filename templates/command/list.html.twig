@@ -30,7 +30,7 @@
                             <a href="{{ path('command_edit', {id:commande.id}) }}" style="text-decoration:none">Modifier</a>
                         </button>
                         <button class="btn btn-danger btn-sm">
-                            <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
+                            <a href="#" onclick="event.preventDefault();confirm('Etes vous sûr de vouloir supprimer la commande de {{ commande.clients.nom }} ?') && 
                             document.getElementById('js-command-delete-form_{{ commande.id }}').submit();" style="text-decoration:none">Supprimer</a>
                         </button>
                     </td>
