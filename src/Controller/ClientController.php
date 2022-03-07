@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Class\NumberToStr;
 use App\Entity\Client;
+use App\Entity\ClientHistory;
 use App\Entity\Facture;
 use App\Form\BillType;
 use App\Form\ClientType;
+use App\Repository\ClientHistoryRepository;
 use App\Repository\ClientRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\FactureRepository;
@@ -35,20 +37,18 @@ class ClientController extends AbstractController
      * @return a Response object
     */
     #[Route('/client/add', name: 'client_create', methods: ['GET', 'POST'])]
-    public function create(ClientRepository $rep, Request $req, EntityManagerInterface $em): Response
+    public function create(ClientHistoryRepository $rep, Request $req, EntityManagerInterface $em): Response
     {
         $client = new Client;
+        $history = new ClientHistory;
 
-        # get the last occurence on the client table
-        $last = $rep->findBy([], ['numcli' => 'DESC'], 1);
+        $numb = $rep->findAll();
 
         #filter its identifier so we can get the number after 'CL' 
-        if(count($last) === 0){
+        if(count($numb) === 0){
             $client->setNumcli('CL01');
-        }else{
-            $lastNumCli = (int) filter_var($last[0]->getNumcli(), FILTER_SANITIZE_NUMBER_INT);
-        
-            $client->setNumcli($lastNumCli<9? 'CL0'.$lastNumCli+1:'CL'.$lastNumCli+1);
+        }else{        
+            $client->setNumcli(count($numb)<9? 'CL0'.count($numb)+1:'CL'.count($numb)+1);
         }
 
         $form = $this->createForm(ClientType::class, $client);
@@ -56,9 +56,12 @@ class ClientController extends AbstractController
         $form->handleRequest($req);
 
         if($form->isSubmitted() && $form->isValid()){
+            $history->setNom($client->getNom());
+
+            $em->persist($history);
             $em->persist($client);
             $em->flush();
-            
+
             $this->addFlash('success', 'Client ajouté avec succès!');
 
             return $this->redirectToRoute('client_list');

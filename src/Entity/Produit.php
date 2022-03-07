@@ -32,7 +32,6 @@ class Produit
         $this->commandes = new ArrayCollection();
     }
 
-
     public function getNumPro(): ?string
     {
         return $this->numPro;
@@ -137,4 +136,6 @@ class Produit
 
         return $this;
     }
+
+
 }

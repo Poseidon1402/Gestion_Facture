@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\ProductHistory;
 use App\Entity\Produit;
 use App\Form\ProduitType;
+use App\Repository\ProductHistoryRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -14,32 +16,32 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProduitController extends AbstractController
 {
-    #[Route('/produit/add', name: 'product_create', methods: ['GET', 'POST'])]
-    public function createpro(ProduitRepository $rep, Request $req, EntityManagerInterface $emi):Response
+    #[Route('/product/add', name: 'product_create', methods: ['GET', 'POST'])]
+    public function createpro(ProductHistoryRepository $rep, Request $req, EntityManagerInterface $em):Response
     {
         $produit = new Produit;
+        $history = new ProductHistory;
 
-         # get the last occurence on the client table
-         $last = $rep->findBy([], ['numPro' => 'DESC'], 1);
+        # get the last occurence on the client table
+        $last = $rep->findAll();
 
-         if( count($last) === 0){
+        if( count($last) === 0){
             $produit->setNumPro('PRO01');
-         }else{
-             #filter its identifier so we can get the number after 'PRO' 
-            $lastNumPro = (int) filter_var($last[0]->getNumPro(), FILTER_SANITIZE_NUMBER_INT);
-         
-            $produit->setNumPro($lastNumPro<9? 'PRO0'.$lastNumPro+1:'PRO'.$lastNumPro+1);
+        }else{
+            #filter its identifier so we can get the number after 'PRO'          
+            $produit->setNumPro(count($last)<9? 'PRO0'.count($last)+1:'PRO'.count($last)+1);
             
-         }
+        }
          
+        $form = $this->createForm(ProduitType::class ,$produit);
  
-         $form = $this->createForm(ProduitType::class ,$produit);
- 
-         $form->handleRequest($req);
+        $form->handleRequest($req);
 
-         if($form->isSubmitted() && $form->isValid()){
-            $emi->persist($produit);
-            $emi->flush();
+        if($form->isSubmitted() && $form->isValid()){
+            $history->setDesign($produit->getDesign());
+            $em->persist($history);
+            $em->persist($produit);
+            $em->flush();
 
             return $this->redirectToRoute('product_list');
         }
@@ -54,8 +56,8 @@ class ProduitController extends AbstractController
      * 
      * @return a Response object
     */
-    #[Route('/produit/modify/{id}', name: 'product_edit', methods: ['GET', 'PATCH'])]
-    public function modify( Produit $produit, Request $req, EntityManagerInterface $emi):Response
+    #[Route('/product/modify/{id}', name: 'product_edit', methods: ['GET', 'PATCH'])]
+    public function modify( Produit $produit, Request $req, EntityManagerInterface $em):Response
     {   
         
         $form = $this->createForm(ProduitType::class, $produit,['method' => 'PATCH']);
@@ -63,7 +65,7 @@ class ProduitController extends AbstractController
         $form->handleRequest($req);
 
         if($form->isSubmitted() && $form->isValid()){
-            $emi->flush();
+            $em->flush();
 
             return $this->redirectToRoute('product_list');
         }
@@ -77,7 +79,7 @@ class ProduitController extends AbstractController
      * 
      * @return a Response Object
     */
-    #[Route('/produit', name: 'product_list', methods: ['GET'])]
+    #[Route('/product', name: 'product_list', methods: ['GET'])]
     public function list(ProduitRepository $rep, PaginatorInterface $paginator, Request $req): Response
     {
         $produits = $rep->findAll();
@@ -98,7 +100,7 @@ class ProduitController extends AbstractController
      * 
      * @return a Response object
     */
-    #[Route('/produit/delete/{id}', name: 'produit_delete', methods: ['DELETE'])]
+    #[Route('/product/delete/{id}', name: 'produit_delete', methods: ['DELETE'])]
     public function delete(Produit $produit, Request $req, EntityManagerInterface $em): Response
     {
         //csrf protection

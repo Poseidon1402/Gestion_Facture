@@ -16,7 +16,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Client
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $numcli;
 
     #[ORM\Column(type: 'string', length: 255)]
