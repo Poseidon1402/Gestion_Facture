@@ -3,10 +3,17 @@
 {% block title 'Liste des produits' %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    <h1 class="text-center bold mt-3 text-secondary">Nouveau Produit</h1>
+    <div class="container mt-3 w-50">
+        {{form_start(form)}}
+          {{form_widget(form)}}
+      <div class="row">
+        <button type="submit" class="btn btn-lg btn-secondary text-dark col m-1">AJOUTER</button>
+        <button class="btn btn-lg btn-dark col m-1">
+            <a href="{{ path('product_list') }}" class="text-decoration-none">Retour</a>
+        </button>
+      </div>
 
-        <input type="submit" value="Ajouter">
-    {{ form_end(form) }}
-     
+       {{form_end(form)}} 
+    </div>
 {% endblock %}

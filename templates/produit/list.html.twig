@@ -3,32 +3,37 @@
 {% block title 'liste produits' %}
 
 {% block body %}
-
+    <h1 class="text-center bold mt-3 text-secondary">Liste des Produits</h1>
     {% if pagination|length == 0 %}
         <h1>Il n'y a aucun commande pour le moment.</h1>  
     {% else %}
-        <table>
-            <thead>
-                <td>NUMPRO</td>
-                <td>Designation</td>
-                <td>Prix Unitaire</td>
-                <td>Stock</td>
-                <td>Options</td>
-            </thead>
+        <table class="table table-hover table-secondary caption-top mx-auto w-80 ">
+        
+            <tr class="table-dark row">
+                <th class="text-center col-1">NumPro</th>
+                <th class="text-center col-2">Designation</th>
+                 <th class="text-center col-2">Prix unitaire</th>
+                 <th class="text-center col-1">Stock</th>
+                <th class="text-center col-4">Options</th>
+
+            </tr>
 
             {% for produit in pagination %}
-            <tr>
-                <td>{{ produit.numPro }}</td>
-                <td>{{ produit.design }}</td>
-                <td>{{ produit.pu }}</td>
-                <td>{{ produit.stock }}</td>
-                <td>
-                    <button>
-                        <a href="{{ path('product_edit', {id:produit.numPro}) }}">edit</a>
+            <tr class="row px-auto align-middle">
+                <td class="text-center col-1"><span class="align-middle">{{ produit.numPro }}</span></td>
+                <td class="text-center col-2"><span class="align-middle">{{ produit.design }}</span></td>
+                <td class="text-center col-2"><span class="align-middle">{{ produit.pu }}</span></td>
+                <td class="text-center col-1"><span class="align-middle">{{ produit.stock }}</span></td>
+               
+                <td class="text-center col-4">
+                    <button class="btn btn-dark">
+                        <a href="{{ path('product_edit', {id:produit.numPro}) }}">
+                         <img src="/icon/edit.png" alt="edit-icon">
+                        </a>
                     </button>
-                    <button>
+                    <button class="btn btn-primary m-1">
                         <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
-                        document.getElementById('js-produit-delete-form_{{ produit.numPro }}').submit();">Delete</a>
+                        document.getElementById('js-produit-delete-form_{{ produit.numPro }}').submit();"><img src="/icon/delete.png" alt="delete-icon"></a>
                     </button>
                 </td>
             </tr>

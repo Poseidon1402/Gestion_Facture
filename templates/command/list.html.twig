@@ -2,36 +2,41 @@
 
 {% block title 'liste commande' %}
 
-{% block body %}
+{% block body %}<h1 class="text-center bold mt-3 text-secondary">Liste des commandes</h1>
+    
 
     {% if commandes|length == 0 %}
         <h1>Il n'y a aucun commande pour le moment.</h1>  
     {% else %}
-        <table class="table table-hover">
-            <thead>
-                <td>Numéro</td>
-                <td>Clients</td>
-                <td>Quantités</td>
-                <td>Produits</td>
-                <td>Date</td>
-                <td>Options</td>
-            </thead>
+        <table class="table table-hover table-secondary caption-top mx-auto w-75">
+             <tr class="table-dark row">
+                    <th class="text-center col-1">Numero</th>
+                    <th class="text-center col-2">Client</th>
+                    <th class="text-center col-2">Produit</th>
+                    <th class="text-center col-1">Qte</th>
+                    <th class="text-center col-2">Date</th>
+                    <th class="text-center col-4">Options</th>
+
+                </tr>
 
             {% for commande in commandes %}
-            <tr class="table-secondary">
-            
-                <td>{{ commande.id }}</td>
-                <td>{{ commande.clients.nom }}</td>
-                <td>{{ commande.qte }}</td>
-                <td>{{ commande.produits.design }}</td>
-                <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
-                <td>
-                    <button class="btn btn-success btn-sm">
-                        <a href="{{ path('commande_edit', {id:commande.id}) }}" style="text-decoration:none">Modifier</a>
+            <tr class="row px-auto align-middle">
+                <td class="text-center col-1"><span class="align-middle">{{commande.id}}</span></td>
+                <td class="text-center col-2"><span class="align-middle">{{commande.clients.nom}}</span></td>
+                <td class="text-center col-2"><span class="align-middle">{{ commande.produits.design }}</span></td>
+                <td class="text-center col-1"><span class="align-middle">{{ commande.qte}}</span></td>
+                <td class="text-center col-2"><span class="align-middle">{{ commande.dateCommande|date('d/m/Y')}}</span></td>
+                <td class="text-center col-4">
+                    <button class="btn btn-dark">
+                        <a href="{{ path('commande_edit', {id:commande.id}) }}" style="text-decoration:none">
+                            <img src="/icon/edit.png" alt="edit-icon">
+                        </a>
                     </button>
-                    <button class="btn btn-danger btn-sm">
+                    <button class="btn btn-primary m-1">
                         <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
-                        document.getElementById('js-client-delete-form_{{ commande.id }}').submit();" style="text-decoration:none">Supprimer</a>
+                        document.getElementById('js-client-delete-form_{{ commande.id }}').submit();" style="text-decoration:none">
+                            <img src="/icon/delete.png" alt="delete-icon">
+                        </a>
                     </button>
                 </td>
             </tr>

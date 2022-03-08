@@ -3,9 +3,17 @@
 {% block title 'Ajout de commande' %}
 
 {% block body %}
-    {{ form_start(form) }}
+<h1 class="text-center bold mt-3 text-secondary">Nouveau Commande</h1>
+    <div class="container mt-3 w-50">
+     {{ form_start(form) }}
         {{ form_widget(form) }}
 
-        <input class="btn btn-primary"type="submit" value="Ajouter">
+        <div class="row">
+             <button type="submit" class="btn btn-lg btn-secondary text-dark col m-1">AJOUTER</button>
+             <button class="btn btn-lg btn-dark col m-1">
+                <a href="{{ path('commande_list') }}" class="text-decoration-none">Retour</a>
+            </button>
+        </div>
     {{ form_end(form) }}
+    </div>
 {% endblock %}
