@@ -3,9 +3,14 @@
 {% block title 'Générer une facture' %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    <div class="container w-50">
+        <p class="h1 text-center mb-3">Générer une facture</p>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
 
-        <input type="submit" value="Générer">
-    {{ form_end(form) }}
+            <div class="d-grid">
+                <input type="submit" value="Générer" class="btn btn-lg btn-primary">
+            </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

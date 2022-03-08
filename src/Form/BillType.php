@@ -18,12 +18,14 @@ class BillType extends AbstractType
         $builder
             ->add('dateFacture', DateType::class, [
                 'widget' => 'single_text',
+                'label' => 'Date de la facture',
                 'attr' => [
                     'readOnly' => true
                 ]
             ])
             ->add('client', EntityType::class, [
                 'class' => Client::class,
+                'label' => 'Nom du client',
                 'choice_label' => 'nom',
                 'placeholder' => 'Choisissez un client',
                 'query_builder' => fn(ClientRepository $rep) => $rep->createQueryBuilder('c')
