@@ -10,6 +10,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -94,7 +95,7 @@ class ProduitController extends AbstractController
             10
         );
 
-        $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder(null, ['method' => 'GET', 'csrf_protection' => false])
             ->add('search', TextType::class, [
                 'attr' => [
                     'placeholder' => "Tapez le nom ou l'identifiant du client"

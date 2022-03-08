@@ -4,8 +4,7 @@
 
 
 {% block body %}
-
-      <div class="container">
+    <div class="container">
         <div class="row">
             <div class="col mb-1">
                 <div class="row">
@@ -41,48 +40,47 @@
                 {{ form_end(form) }}
             </div>
         </div>
-        <div>    
+    <div>
+
             {% if pagination|length == 0 %}
-                <h1>Il n'y a aucun commande pour le moment.</h1>
+                <h1 class="h1 text-center text-secondary">Il n'y a aucun commande pour le moment.</h1>
             {% else %}
-                <table class="table table-bordered table-hover">
-                     <thead>
-                        <tr class="btn-success">
-                            <th class=" text-center align-middle">NUMPRO</th>
-                            <th class=" text-center align-middle">Designation</th>
-                            <th class=" text-center align-middle">Prix Unitaire</th>
-                            <th class=" text-center align-middle">Stock</th>
-                            <th class="col-2 text-center align-middle">Options</th>
-                        </tr>
-                    </thead>
+            <table class="table table-hover">
+                    <tr class="table-success row">
+                        <th class=" text-center col-2">NUMPRO</th>
+                        <th class=" text-center col-3">Designation</th>
+                        <th class=" text-center col-3">Prix Unitaire</th>
+                        <th class=" text-center col-1">Stock</th>
+                        <th class=" text-center col-3">Options</th>
+                    </tr>
 
-            {% for produit in pagination %}
-            <tr>
-                <td class=" text-center align-middle">{{ produit.numPro }}</td>
-                <td class=" text-center align-middle">{{ produit.design }}</td>
-                <td class=" text-center align-middle">{{ produit.pu }}</td>
-                <td class=" text-center align-middle">{{ produit.stock }}</td>
-                <td class=" text-center align-middle col">
-                    <button class="btn btn-info">
-                        <a href="{{ path('product_edit', {id:produit.numPro}) }}">
-                         <img src="/icon/editPro.png" alt="edit-icon">
-                        </a>
-                    </button>
-                    <button class="btn btn-danger">
-                        <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
-                        document.getElementById('js-produit-delete-form_{{ produit.numPro }}').submit();">
-                        <img src="/icon/deletePro.png" alt="delete-icon">
-                        </a>
-                    </button>
-                </td>
-            </tr>
+                {% for produit in pagination %}
+                <tr class="row">
+                    <td class=" text-center col-2">{{ produit.numPro }}</td>
+                    <td class=" text-center col-3">{{ produit.design }}</td>
+                    <td class=" text-center col-3">{{ produit.pu }}</td>
+                    <td class=" text-center col-1">{{ produit.stock }}</td>
+                    <td class=" text-center col-3">
+                        <button class="btn btn-info p-1">
+                            <a href="{{ path('product_edit', {id:produit.numPro}) }}">
+                                <img src="/icon/editPro.png" alt="edit-icon">
+                            </a>
+                        </button>
+                        <button class="btn btn-danger p-1">
+                            <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
+                            document.getElementById('js-produit-delete-form_{{ produit.numPro }}').submit();">
+                            <img src="/icon/deletePro.png" alt="delete-icon">
+                            </a>
+                        </button>
+                    </td>
+                </tr>
 
-            <form id='js-product-delete-form_{{ produit.numPro }}' action="{{ path('product_delete', { id:produit.numPro }) }}" method="post" style="display: none;">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token('product_deletion_'~produit.numPro) }}">
-                <input type="hidden" name="_method" value="DELETE">
-            </form>
-            {% endfor %}
-        </table>
+                <form id='js-product-delete-form_{{ produit.numPro }}' action="{{ path('product_delete', { id:produit.numPro }) }}" method="post" style="display: none;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token('product_deletion_'~produit.numPro) }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                </form>
+                {% endfor %}
+            </table>
     {% endif %}
     </div>
 </div>
