@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block title 'liste commande' %}
+
+{% block body %}
+
+    {% if commandes|length == 0 %}
+        <h1>Il n'y a aucun commande pour le moment.</h1>  
+    {% else %}
+        <table>
+            <thead>
+                <td>Numéro</td>
+                <td>Clients</td>
+                <td>Quantités</td>
+                <td>Produits</td>
+                <td>Date</td>
+                <td>Options</td>
+            </thead>
+
+            {% for commande in commandes %}
+            <tr>
+                <td>{{ commande.id }}</td>
+                <td>{{ commande.clients.nom }}</td>
+                <td>{{ commande.qte }}</td>
+                <td>{{ commande.produits.design }}</td>
+                <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
+                <td>
+                    <button>
+                        <a href="{{ path('commande_edit', {id:commande.id}) }}">edit</a>
+                    </button>
+                    <button>
+                        <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
+                        document.getElementById('js-client-delete-form_{{ commande.id }}').submit();">Delete</a>
+                    </button>
+                </td>
+            </tr>
+
+            <form id='js-client-delete-form_{{ commande.id }}' action="{{ path('commande_delete', { id:commande.id }) }}" method="post" style="display: none;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token('command_deletion_'~commande.id) }}">
+                <input type="hidden" name="_method" value="DELETE">
+            </form>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

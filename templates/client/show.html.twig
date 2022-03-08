@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block title client.nom~' profil' %}
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" value="Rechercher">
+    {{ form_end(form) }}
+    
+    <p>><img src="{{ (client.imageName? vich_uploader_asset(client) : 'Avatar/jeune-homme-avatar-personnage-photo-de-profil-tc667n.jpg')
+    |imagine_filter('squared_thumbnail_small') }}" /></p>
+    <h1>{{ client.nom }}</h1>
+    {% if commands|length == 0 %}
+        <p>Ce client n'a rien commandé pour l'instant.</p>
+    {% else %}
+        <table>
+            <thead>
+                <td>NumPro</td>
+                <td>Designation</td>
+                <td>Prix Unitaire</td>
+                <td>Date de la commande</td>
+            </thead>
+
+            {% for command in commands %}
+                <tr>
+                    <td>{{ command.produits.numPro }}</td>
+                    <td>{{ command.produits.design }}</td>
+                    <td>{{ command.produits.pu }}</td>
+                    <td>{{ command.dateCommande|date('d/m/Y') }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

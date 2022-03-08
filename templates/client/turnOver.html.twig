@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title "Chiffres d'affaires"%}
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" value="Rechercher">
+    {{ form_end(form) }}
+
+    {% if clients|length == 0 %}
+        <p>Aucun résultat</p>
+    {% else %}
+        <table>
+            <thead>
+                <td>N°CLIENT</td>
+                <td>NOM</td>
+                <td>CHIFFRE D’AFFAIRES</td>
+            </thead>
+
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client[0].numcli }}</td>
+                    <td>{{ client[0].nom }}</td>
+                    <td>{{ client[1] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html.twig" %}
+
+{% block title 'liste produits' %}
+
+
+{% block body %}
+
+      <div class="container">
+        <div class="row">
+            <div class="col mb-1">
+                <div class="row">
+                    <div class="col-2">
+                        <button class="btn p-0 mt-3" title="Ajouter un nouveau produit">
+                            <a href="{{ path('product_create') }}" class="text-decoration-none">
+                                <img src="icon/addPro.png" alt="add icon">
+                            </a>
+                        </button>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-secondary shadow mt-3" title="Historiques des produits">
+                            <a href="{{ path('purchase_history') }}" class="text-decoration-none">
+                                <img src="icon/historyPro.png" alt="history icon">
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end col mt-2">
+                {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-5 w-75 mt-1">
+                            {{ form_widget(form.search) }}
+                        </div>
+    
+                        <div class="col-2 mt-1">
+                            <button type="submit" class="btn btn-secondary shadow">
+                                <img src="/icon/searchPro.png" alt="search-icon">
+                            </button>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <div>    
+            {% if pagination|length == 0 %}
+                <h1>Il n'y a aucun commande pour le moment.</h1>
+            {% else %}
+                <table class="table table-bordered table-hover">
+                     <thead>
+                        <tr class="btn-success">
+                            <th class=" text-center align-middle">NUMPRO</th>
+                            <th class=" text-center align-middle">Designation</th>
+                            <th class=" text-center align-middle">Prix Unitaire</th>
+                            <th class=" text-center align-middle">Stock</th>
+                            <th class="col-2 text-center align-middle">Options</th>
+                        </tr>
+                    </thead>
+
+            {% for produit in pagination %}
+            <tr>
+                <td class=" text-center align-middle">{{ produit.numPro }}</td>
+                <td class=" text-center align-middle">{{ produit.design }}</td>
+                <td class=" text-center align-middle">{{ produit.pu }}</td>
+                <td class=" text-center align-middle">{{ produit.stock }}</td>
+                <td class=" text-center align-middle col">
+                    <button class="btn btn-info">
+                        <a href="{{ path('product_edit', {id:produit.numPro}) }}">
+                         <img src="/icon/editPro.png" alt="edit-icon">
+                        </a>
+                    </button>
+                    <button class="btn btn-danger">
+                        <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
+                        document.getElementById('js-produit-delete-form_{{ produit.numPro }}').submit();">
+                        <img src="/icon/deletePro.png" alt="delete-icon">
+                        </a>
+                    </button>
+                </td>
+            </tr>
+
+            <form id='js-produit-delete-form_{{ produit.numPro }}' action="{{ path('produit_delete', { id:produit.numPro }) }}" method="post" style="display: none;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token('produit_deletion_'~produit.numPro) }}">
+                <input type="hidden" name="_method" value="DELETE">
+            </form>
+            {% endfor %}
+        </table>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}
+{#<div class="container">  
+    <div class="row">
+    <div class="">
+        <div style="">
+            <button class="" title="Ajouter un nouveau produit">
+                <a href="{{ path('product_create') }}" class="text-decoration-none">
+                    <img src="icon/addPro.png" alt="add icon">
+                </a>
+            </button>
+        </div>
+        <div class="">
+            <button class="btn btn-secondary shadow mt-3" title="Chiffres d'affaires des clients">
+                <a href="{{ path('clients_turnover') }}" class="text-decoration-none">
+                    <img src="icon/turnOver.png" alt="turnover icon">
+                </a>
+            </button>
+        </div>
+    </div>
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="input-group mb-2 mt-4" style="margin-left: 67%;" >
+                    <Span style="margin-right: 10px;">{{ form_widget(form.search) }}</Span>
+                    <input type="submit" class="btn btn-primary shadow" style="width: 120px; border-radius: 20px;" id="button-addon2" value="Rechercher">
+                    
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div> #}
