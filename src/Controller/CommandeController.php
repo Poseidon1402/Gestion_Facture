@@ -49,7 +49,7 @@ class CommandeController extends AbstractController
 
             $this->addFlash('success', 'La commande du client '.$commande->getClients()->getNom().' a été ajouté !' );
 
-            return $this->redirectToRoute('command_list');
+            return $this->redirectToRoute('command_create');
         }
         return $this->render('command/create.html.twig', [
             'form' => $form->createView()

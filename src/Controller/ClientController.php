@@ -278,7 +278,7 @@ class ClientController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/bill/generate', name: 'generate_facture', methods: ['GET', 'POST'])]
+    #[Route(path: '/bill/generate', name: 'generate_bill', methods: ['GET', 'POST'])]
     public function factureGenerate(Request $req, EntityManagerInterface $em,FactureRepository $factRep, 
         CommandeRepository $rep,Pdf $knpSnappyPdf): Response
     {

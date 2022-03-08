@@ -23,6 +23,7 @@ class CommandType extends AbstractType
     {
         $builder
             ->add('clients', EntityType::class, [
+                'label' => 'Client',
                 'class' => Client::class,
                 'choice_label' => 'nom',
                 'placeholder' => 'Choisissez un client',
@@ -35,6 +36,7 @@ class CommandType extends AbstractType
                 ]
             ])
             ->add('produits', EntityType::class, [
+                'label' => 'Produit',
                 'class' => Produit::class,
                 'choice_label' => 'design',
                 'placeholder' => 'Choisissez un produit',

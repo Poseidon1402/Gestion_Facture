@@ -3,9 +3,16 @@
 {% block title 'Ajout de commande' %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    <div class="container w-50">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
 
-        <input class="btn btn-primary"type="submit" value="Ajouter">
-    {{ form_end(form) }}
+            <div class="row">
+                <button type="submit" class="btn btn-lg btn-secondary text-dark col m-1">AJOUTER</button>
+                <button class="btn btn-lg btn-dark col m-1">
+                    <a href="{{ path('generate_bill') }}" class="text-decoration-none">Facture</a>
+                </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
