@@ -3,31 +3,88 @@
 {% block title 'Produits sortants' %}
 
 {% block body %}
-    <select name="searchType" id="searchType">
-        <option value="Année">Année</option>
-        <option value="Date">Date</option>
-    </select>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+ <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 30px; position: relative; z-index: 1;" id="forms">
+			<div class="container col-sm-3" style="width: 500px; border-radius: 10px; overflow: hidden; padding: 55px 55px 37px 55px; background: #9152f8; background: -webkit-linear-gradient(top, #7579ff, #b224ef);">
+				<div class="row">
+					<div class="booking-form">
+                            <div style="margin-top: -50px; margin-left:-45px;" class="">
+                                <button class="btn" style="">
+                                    <a href="{{ path('product_list') }}" class="">
+                                    <img src="/icon/backPro.png" alt="back icon"></a>
+                                    </button>
+                            </div>
+						<div class="form-header">
+							<h1 style="display: block; font-family: Poppins-Bold; font-size: 39px; color: #333333; line-height: 1.2; text-align: center;">Historique Produit</h1>
 
-        <input type="submit" value="Rechercher">
-    {{ form_end(form) }}
+                            <div class="form-group row ">
+                                    <div class="col-2" for="anne">
+                                        <input type="radio" class="form-check-input" name="type" id="optionsRadios1" value="annee" checked="" onclick="show1()">
+                                        Année
+                                    
+                                    </div>
+                                    <div class="col-2" for="date">
+                                        <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="type" id="optionsRadios2" value="date" onclick="show2()">
+                                        Date
+                                    </div>
+                            </div>
+                            {{ form_start(form) }}
+                            <div class="mb-2" id="annee">
+                                {{ form_widget(form.year) }}
+                            </div>
+                            <div class="mt-2 mb-2" id="date">
+                                <div class="mb-2">
+                                    {{ form_widget(form.beginningDate) }}
+                                </div>
+                                
+                                <div>
+                                    {{ form_widget(form.lastDate) }}
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: center; padding-top: 35px;">
+                            <input type="submit" class="btn btn-primary" id="button-addon2" value="Rechercher" onclick="">
+                            </div>
+                                {{ form_end(form) }}
 
-    <table>
-        <thead>
-            <td>DESIGNATION</td>
-            <td>PU</td>
-            <td>Quantité</td>
-            <td>Date</td>
-        </thead>
-    {% for history in histories %}
-        <tr>
-            <td>{{ history[0].design }}</td>
-            <td>{{ history[0].pu }}</td>
-            <td>{{ history[1] }}</td>
-            <td>{{ history[2] }}</td>
-        </tr>
-    {% endfor %}
-    </table>
+                        </div>
+                    </div>
+                </div>    
+            </div>    
+        </div>  
+        <div class="container" id="tableau">
+                <table class="table table-bordered table-hover">
+                        <thead class="btn-success">
+                            <tr>
+                            <th class=" text-center align-middle">DESIGNATION</th>
+                            <th class=" text-center align-middle">PU(en FMG)</th>
+                            <th class=" text-center align-middle">Quantité</th>
+                            <th class=" text-center align-middle">Date</th>
+                            </tr>
+                        </thead>
+                        
+                    {% for history in histories %}
+                        <tr>
+                            <th class=" text-center align-middle">{{ history[0].design }}</th>
+                            <th class=" text-center align-middle">{{ history[0].pu }}</th>
+                            <th class=" text-center align-middle">{{ history[1] }}</th>
+                            <th class=" text-center align-middle">{{ history[2] }}</th>
+                        </tr>
+                    {% endfor %}
+                </table>
+        </div>
+       
+    <script>
+        window.onload = function(){
+            document.getElementById('date').style.display='none';
+        }
+        function show1(){
+            document.getElementById('annee').style.display='block';
+            document.getElementById('date').style.display='none';
+        }
+        function show2(){
+            document.getElementById('annee').style.display='none';
+            document.getElementById('date').style.display='block';
+        }
+    </script>                            
 {% endblock %}

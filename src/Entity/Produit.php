@@ -136,6 +136,4 @@ class Produit
 
         return $this;
     }
-
-
 }

@@ -94,7 +94,37 @@ class ProduitController extends AbstractController
             10
         );
 
-        return $this->render('produit/list.html.twig', compact('pagination'));
+        $form = $this->createFormBuilder()
+            ->add('search', TextType::class, [
+                'attr' => [
+                    'placeholder' => "Tapez le nom ou l'identifiant du client"
+                ],
+                'required' => false
+            ])
+            ->getForm();
+        
+        $form->handleRequest($req);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $specificClients = $rep->search($form->getData()['search']);
+            $pagination = $paginator->paginate(
+                $specificClients,
+                $req->query->getInt('page', 1),
+                10
+            );
+
+            if($form->getData()['search'] !== null)
+                return $this->render('produit/list.html.twig', [
+                    'pagination' => $pagination,
+                    'form' => $form->createView()
+                ]); 
+        }
+        
+
+        return $this->render('produit/list.html.twig', [
+            'pagination' => $pagination,
+            'form' => $form->createView()
+        ]);
     }
 
     /**

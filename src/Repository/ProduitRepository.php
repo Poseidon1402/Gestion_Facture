@@ -45,6 +45,22 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return Product[] Returns an array of Client objects
+    */
+    
+    public function search($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.numPro = :val1 OR c.design LIKE :val2')
+            ->setParameter('val2', '%'.$value.'%')
+            ->setParameter('val1', $value)
+            ->orderBy('c.numPro', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /*
     public function findOneBySomeField($value): ?Produit
     {
