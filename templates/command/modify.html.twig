@@ -3,9 +3,13 @@
 {% block title 'commande '~commande.id %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    <div class="container w-50">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
 
-        <input class="btn btn-primary" type="submit" value="Modifier">
-    {{ form_end(form) }}
+            <div class="row">
+                <input class="btn btn-primary" type="submit" value="Modifier">
+            </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

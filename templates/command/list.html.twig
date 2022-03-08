@@ -33,7 +33,7 @@
                         </a>
                     </button>
                     <button class="btn btn-primary m-1">
-                        <a href="#" onclick="event.preventDefault();confirm('are you sure?') && 
+                        <a href="#" onclick="event.preventDefault();confirm('Voulez vous vraiment supprimer la commande du client {{ commande.clients.nom }} ?') && 
                         document.getElementById('js-client-delete-form_{{ commande.id }}').submit();" style="text-decoration:none">
                             <img src="/icon/delete.png" alt="delete-icon">
                         </a>
