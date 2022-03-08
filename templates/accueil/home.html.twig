@@ -1,12 +1,12 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Accueil{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-          
+          {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
@@ -20,7 +20,83 @@
         {% endblock %}
     </head>
     <body>
+        <h1 class="text-center bold mt-3 text-secondary">GESTION DE COMMANDE</h1>
+        <div class="accordion-item">
+           <h2 class="accordion-header" id="headingOne">
+             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+               A Propos
+            </button>
+           </h2>
+           <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+             <div class="accordion-body">
+               <strong>Projet PHP de Gestion de Commande.</strong><br>Ce projet a été conçu par Rajoelison Aina Tiavina , Rabemanantsoa Nantenaina Andrea et Ramamonjisoa Antonio Hery.
+             </div>
+           </div>
+        </div>
         
+         <div class="container ">
+             
+               <div class="col">
+                <button  class="btn btn-outline-primary homeBtn" >
+                    <a href="/client" role="button"  class="text-decoration-none">Accéder aux clients</a>
+                </button>
+               </div>
+               <div class="col">
+                <button class="btn btn-outline-primary homeBtn">
+                    <a href="/produit" role="button"  class="text-decoration-none">Accéder aux produits</a>
+                </button>
+               </div>
+               <div class="col">
+                <button class="btn btn-outline-primary homeBtn">
+                    <a href="/command" role="button" class="text-decoration-none">Accéder aux commandes</a>
+                </button>
+               </div>
+             
+         </div>
+            
+          
+
+        <style>
+         .container{
+             margin-top:100px;
+             background-color: rgba(0,0,0,0.2);
+             border-radius:50px;
+             width:400px;
+             height:450px;
+             display:flex;
+             flex-direction:column;
+             justify-content:center;
+             align-items:center;
+             
+         }
+         
+
+         
+        .col{
+             text-align:center;
+             height:100px;
+             display:flex;
+             justify-content:center;
+             align-items:center;
+
+            }
+        .homeBtn{
+            width:300px;
+        }
+        .accordion-item{
+            width:200px;
+            height:50px;
+            display: block;
+            float: right;
+            margin-top: -65px;
+            margin-right:20px;
+        }
+
+        
+        
+        </style>
+
         {% block body %}{% endblock %}
+        
     </body>
 </html>

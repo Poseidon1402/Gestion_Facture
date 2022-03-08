@@ -149,7 +149,7 @@ class CommandeController extends AbstractController
     {
         $histories = $rep->findPurchaseHistoryPerProductByYear();
 
-        $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder(['method' => 'GET'])
             ->add('year', SearchType::class, [
                 'required' => false,
                 'attr' => [

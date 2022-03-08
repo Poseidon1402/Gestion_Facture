@@ -26,22 +26,22 @@
             <li class="nav-item w-100">
                 <a href="#cli"class=" nav-link text-light pl-4 "  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="cli">Client</a>
                   <div id="cli" class="collapse " >
-                    <a href="{{ path('client_create') }}"class=" nav-link text-light pl-4 col" >Ajout</a>
-                    <a href="{{ path('client_list') }}"class="nav-link text-light pl-4 col" >Liste</a>
+                    <a href="{{ path('client_create') }}"class=" nav-link text-light pl-4 colone" >Ajout</a>
+                    <a href="{{ path('client_list') }}"class="nav-link text-light pl-4 colone" >Liste</a>
                   </div>
             </li>
             <li class="nav-item w-100">
                 <a href="#pro"class="nav-link text-light pl-4 "  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="pro">Produit</a>
                   <div id="pro" class="collapse " >
-                    <a href="{{ path('product_create') }}"class="nav-link text-light pl-4 col" >Ajout</a>
-                    <a href="{{ path('product_list') }}"class="nav-link text-light pl-4 col" >Liste</a>
+                    <a href="{{ path('product_create') }}"class="nav-link text-light pl-4 colone" >Ajout</a>
+                    <a href="{{ path('product_list') }}"class="nav-link text-light pl-4 colone" >Liste</a>
                   </div>
             </li>
            <li class="nav-item w-100">
                 <a href="#com"class="nav-link text-light pl-4 "  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="com">Commande</a>
                   <div id="com" class="collapse " >
-                    <a href="{{ path('command_create') }}"class="nav-link text-light pl-4 col" >Ajout</a>
-                    <a href="{{ path('command_list') }}"class="nav-link text-light pl-4 col" >Liste</a>
+                    <a href="{{ path('command_create') }}"class="nav-link text-light pl-4 colone" >Ajout</a>
+                    <a href="{{ path('command_list') }}"class="nav-link text-light pl-4 colone" >Liste</a>
                   </div>
             </li>
            <hr>  
@@ -51,7 +51,7 @@
      
       <div class="p-4 my-container">
         <button class="navbar-toggler" id="menu-btn">
-         Menu
+            <img src="/icon/menuMini.png" style="margin-left: 40px" alt="menu-icon">
         </button>
         {% for label, messages in app.flashes %}
             <div class="container mt-2">
