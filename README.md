@@ -28,7 +28,10 @@
 
 <h4>NB: Don't forget to remove all the file in the migrations directory before the execution of the final step !</h4>
 
-<h3>Then run your server with : </h3>
-
-    symfony serve -d                            //if you use symfony cli
-    php -S localhost:8000 -t public/            // if you don't have symfony cli
+<h3>Then run your local server with : </h3>
+    
+    //if you use symfony cli
+    symfony serve -d
+    
+    // if you want to run it with php command
+    php -S localhost:8000 -t public/            
