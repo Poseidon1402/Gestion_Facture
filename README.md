@@ -21,9 +21,9 @@
     php bin/console make:migration
     php bin/console doctrine:migrations:migrate
     
- <h4>Don't forget to remove all the file in the migrations directory before the last step</h4>
-    
  <h3>Download (url: https://wkhtmltopdf.org/downloads.html ) and install wkhtmltopdf if you want to generate a pdf with knp_snappy, then set the installation path in your .env.local :</h3>
  
     WKHTMLTOPDF_PATH=/usr/local/bin/wkhtmltopdf
     # it should be different on windows
+
+<h4>NB: Don't forget to remove all the file in the migrations directory before the last step !</h4>
