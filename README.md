@@ -1,3 +1,3 @@
- first step: Install dependencies via Composer with the command:
+ <h2>First step: Install dependencies via Composer with the command:</h2>
   
- <h1>composer install</h1>
+ <h3>composer install</h3>
