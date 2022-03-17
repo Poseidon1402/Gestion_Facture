@@ -1,4 +1,4 @@
- <h3>First step: Install all composer dependencies :</h3>
+ <h3>First step: Install all dependencies via composer :</h3>
   
     composer install
  
