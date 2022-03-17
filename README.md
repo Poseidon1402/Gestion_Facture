@@ -15,7 +15,7 @@
     DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7&charset=utf8mb4"
     # you should change the db_user, db_password, db_name
 
- <h2>Final step: Execute the following command :</h2>
+ <h3>Final step: Execute the following command :</h3>
  
     php bin/console doctrine:database:create
     php bin/console make:migration
