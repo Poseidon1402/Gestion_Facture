@@ -4,4 +4,4 @@
  
  <h2>First step: Install dependencies via Composer with the command:</h2>
   
- <h3 class="text-center">composer install</h3>
+ <h3 class="text-secondary">composer install</h3>
