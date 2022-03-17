@@ -1,7 +1,7 @@
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-        1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-</head>
- 
  <h2>First step: Install dependencies via Composer with the command:</h2>
   
- <h3 class="h1">composer install</h3>
+    <h3>composer install</h3>
+ 
+ <h2>First step: Install dependencies via npm with the command:</h2>
+
+    <h3>npm install</h3>
