@@ -26,4 +26,9 @@
     WKHTMLTOPDF_PATH=/usr/local/bin/wkhtmltopdf
     # it should be different on windows
 
-<h4>NB: Don't forget to remove all the file in the migrations directory before the last step !</h4>
+<h4>NB: Don't forget to remove all the file in the migrations directory before the execution of the final step !</h4>
+
+<h3>Then run your server with : </h3>
+
+    symfony serve -d                            //if you use symfony cli
+    php -S localhost:8000 -t public/            // if you don't have symfony cli
