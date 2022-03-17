@@ -30,7 +30,7 @@
 
 <h3>Then run your local server with : </h3>
     
-    //if you use symfony cli
+    // if you use symfony cli
     symfony serve -d
     
     // if you want to run it with php command
