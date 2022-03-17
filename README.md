@@ -1,7 +1,7 @@
  <h2>First step: Install dependencies via Composer with the command:</h2>
   
-    <h3>composer install</h3>
+    composer install
  
- <h2>First step: Install dependencies via npm with the command:</h2>
+ <h2>First step: Install dependencies with npm with the command:</h2>
 
-    <h3>npm install</h3>
+    npm install
